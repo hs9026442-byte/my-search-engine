@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Search Engine</title>
+</head>
+
+<body>
+
+    <h1>My Search Engine</h1>
+
+    <input id="searchBox" type="text" placeholder="Search the web">
+
+    <button onclick="search()">Search</button>
+
+    <script>
+        function search() {
+            let query = document.getElementById("searchBox").value;
+
+            if (query !== "") {
+                window.location.href =
+                    "https://www.google.com/search?q=" + encodeURIComponent(query);
+            }
+        }
+    </script>
+
+</body>
+</html>
