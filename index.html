@@ -1,27 +1,319 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Search Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ByteSearch</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    color: white;
+    background:
+        radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
+        radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
+        linear-gradient(135deg, #020817, #001b3d, #020817);
+    overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffffff, #168cff);
+    color: #06152d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(0,140,255,0.5);
+}
+
+.byte {
+    color: white;
+}
+
+.search-word {
+    color: #168cff;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 16px;
+}
+
+/* Main */
+main {
+    text-align: center;
+    padding: 75px 20px 40px;
+}
+
+.big-logo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #ffffff, #087cff);
+    color: #06152d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+    font-weight: bold;
+    box-shadow: 0 0 45px rgba(0,140,255,0.55);
+}
+
+h1 {
+    font-size: clamp(50px, 13vw, 100px);
+    margin-top: 20px;
+    letter-spacing: -4px;
+}
+
+h1 span {
+    color: #168cff;
+}
+
+.tagline {
+    font-size: 18px;
+    letter-spacing: 4px;
+    margin: 10px 0 35px;
+    color: #dceaff;
+}
+
+/* Search */
+.search-area {
+    max-width: 850px;
+    margin: auto;
+    display: flex;
+    background: white;
+    border: 3px solid #168cff;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: 0 0 30px rgba(0,140,255,0.35);
+}
+
+.search-area input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px 20px;
+    font-size: 17px;
+    border-radius: 40px;
+    min-width: 0;
+}
+
+.search-area button {
+    border: none;
+    background: #168cff;
+    color: white;
+    padding: 0 28px;
+    border-radius: 40px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-area button:active {
+    transform: scale(0.97);
+}
+
+/* Quick Search */
+.quick-title {
+    margin: 35px 0 18px;
+    font-size: 22px;
+}
+
+.quick {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: auto;
+}
+
+.quick button {
+    background: rgba(20,40,75,0.8);
+    color: white;
+    border: 1px solid #31547e;
+    padding: 13px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.quick button:hover {
+    border-color: #168cff;
+    background: #0b2c55;
+}
+
+/* Footer */
+footer {
+    margin-top: 80px;
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    color: #9db1ca;
+    font-size: 14px;
+}
+
+/* Phone */
+@media (max-width: 600px) {
+
+    nav {
+        padding: 0 18px;
+    }
+
+    nav a {
+        display: none;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    main {
+        padding-top: 55px;
+    }
+
+    .big-logo {
+        width: 80px;
+        height: 80px;
+        font-size: 55px;
+    }
+
+    h1 {
+        font-size: 55px;
+        letter-spacing: -3px;
+    }
+
+    .tagline {
+        font-size: 13px;
+        letter-spacing: 2px;
+    }
+
+    .search-area {
+        width: 100%;
+    }
+
+    .search-area input {
+        padding: 13px 12px;
+        font-size: 15px;
+    }
+
+    .search-area button {
+        padding: 0 18px;
+        font-size: 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <h1>My Search Engine</h1>
+<nav>
+    <div class="logo">
+        <div class="logo-icon">B</div>
+        <div>
+            <span class="byte">Byte</span><span class="search-word">Search</span>
+        </div>
+    </div>
 
-    <input id="searchBox" type="text" placeholder="Search the web">
+    <div>
+        <a href="#">Home</a>
+        <a href="#">Search</a>
+        <a href="#">About</a>
+    </div>
+</nav>
 
-    <button onclick="search()">Search</button>
+<main>
 
-    <script>
-        function search() {
-            let query = document.getElementById("searchBox").value;
+    <div class="big-logo">B</div>
 
-            if (query !== "") {
-                window.location.href =
-                    "https://www.google.com/search?q=" + encodeURIComponent(query);
-            }
-        }
-    </script>
+    <h1>Byte<span>Search</span></h1>
+
+    <p class="tagline">
+        SEARCH SMARTER. SEE MORE.
+    </p>
+
+    <div class="search-area">
+        <input
+            id="searchBox"
+            type="text"
+            placeholder="Search the web..."
+            onkeydown="if(event.key === 'Enter') search()"
+        >
+
+        <button onclick="search()">
+            🔍 Search
+        </button>
+    </div>
+
+    <h2 class="quick-title">Quick Search</h2>
+
+    <div class="quick">
+        <button onclick="quickSearch('Google')">Google</button>
+        <button onclick="quickSearch('YouTube')">YouTube</button>
+        <button onclick="quickSearch('Facebook')">Facebook</button>
+        <button onclick="quickSearch('Wikipedia')">Wikipedia</button>
+    </div>
+
+</main>
+
+<footer>
+    © 2026 ByteSearch • Search Smarter. See More.
+</footer>
+
+<script>
+
+function search() {
+
+    let query = document.getElementById("searchBox").value.trim();
+
+    if (query !== "") {
+        window.location.href =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(query);
+    }
+}
+
+function quickSearch(site) {
+
+    document.getElementById("searchBox").value = site;
+
+    search();
+}
+
+</script>
 
 </body>
-</html>
+    </html>
