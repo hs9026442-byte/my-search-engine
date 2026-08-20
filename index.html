@@ -295,26 +295,25 @@ footer {
 
 <script>
 
-function search() {
-    const searchBox = document.getElementById("searchBox");
-    const query = searchBox.value.trim();
 
-    if (query === "") {
-        searchBox.focus();
+function search() {
+    const query = document.getElementById("searchBox").value.trim();
+
+    if (!query) {
         return;
     }
 
-    const googleUrl =
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(query);
-
-    window.location.href = googleUrl;
+    const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
+    window.open(url, "_blank");
 }
 
 function quickSearch(site) {
     document.getElementById("searchBox").value = site;
     search();
 }
+
+
+
 
 </script>
 
