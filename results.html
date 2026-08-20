@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>ByteSearch Results</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f8fc;
+    color: #172033;
+}
+
+/* Header */
+header {
+    background: #020817;
+    padding: 18px 5%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #168cff;
+}
+
+.search-box {
+    flex: 1;
+    max-width: 700px;
+    display: flex;
+    background: white;
+    border-radius: 30px;
+    padding: 5px;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: #168cff;
+    color: white;
+    border-radius: 25px;
+    padding: 0 22px;
+    font-weight: bold;
+}
+
+/* Results */
+.container {
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+#queryText {
+    color: #168cff;
+}
+
+.result {
+    background: white;
+    margin: 18px 0;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e1e8f0;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+
+.result h2 {
+    margin: 0 0 8px;
+    color: #086ed8;
+    font-size: 20px;
+}
+
+.result p {
+    margin: 0;
+    color: #56657a;
+    line-height: 1.5;
+}
+
+.result a {
+    color: #168cff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .logo {
+        text-align: center;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box button {
+        padding: 0 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Byte<span>Search</span>
+    </div>
+
+    <div class="search-box">
+        <input id="searchInput" type="text">
+        <button onclick="newSearch()">Search</button>
+    </div>
+
+</header>
+
+<div class="container">
+
+    <h1>
+        Search results for:
+        <span id="queryText"></span>
+    </h1>
+
+    <div class="result">
+        <h2>Welcome to ByteSearch</h2>
+        <p>
+            Your search results will appear here.
+            ByteSearch is being built to provide a fast and simple search experience.
+        </p>
+        <a href="index.html">Back to ByteSearch</a>
+    </div>
+
+    <div class="result">
+        <h2>Search technology coming soon</h2>
+        <p>
+            This results page is the beginning of the ByteSearch search system.
+        </p>
+    </div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const query = params.get("q") || "";
+
+document.getElementById("queryText").textContent = query;
+document.getElementById("searchInput").value = query;
+
+function newSearch() {
+
+    const newQuery =
+        document.getElementById("searchInput").value.trim();
+
+    if (newQuery !== "") {
+
+        window.location.href =
+            "results.html?q=" +
+            encodeURIComponent(newQuery);
+    }
+}
+
+</script>
+
+</body>
+</html>
