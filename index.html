@@ -295,7 +295,6 @@ footer {
 
 <script>
 
-
 function search() {
     const query = document.getElementById("searchBox").value.trim();
 
@@ -303,9 +302,9 @@ function search() {
         return;
     }
 
-    const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
-    window.open(url, "_blank");
-}
+    window.location.href =
+        "results.html?q=" + encodeURIComponent(query);
+    }
 
 function quickSearch(site) {
     document.getElementById("searchBox").value = site;
