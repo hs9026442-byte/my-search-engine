@@ -168,23 +168,84 @@ header {
 <script>
 
 const params = new URLSearchParams(window.location.search);
-const query = params.get("q") || "";
+const query = params.get("q");
 
-document.getElementById("queryText").textContent = query;
-document.getElementById("searchInput").value = query;
+const searchBox = document.getElementById("searchBox");
+const searchTitle = document.getElementById("searchTitle");
+const resultsContainer = document.querySelector(".results");
 
-function newSearch() {
+if (query) {
+    searchBox.value = query;
+    searchTitle.textContent = "Results for: " + query;
+    getResult(query);
+}
 
-    const newQuery =
-        document.getElementById("searchInput").value.trim();
+async function getResult(query) {
+    const url =
+        "https://en.wikipedia.org/api/rest_v1/page/summary/" +
+        encodeURIComponent(query);
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("No result");
+        }
+
+        const data = await response.json();
+
+        resultsContainer.innerHTML = `
+            <h2>Results for: ${escapeHtml(query)}</h2>
+
+            <div class="result">
+                <h3>${escapeHtml(data.title || query)}</h3>
+                <p>${escapeHtml(
+                    data.extract || "No description was found."
+                )}</p>
+
+                ${
+                    data.content_urls?.desktop?.page
+                        ? `<a href="${data.content_urls.desktop.page}"
+                           target="_blank"
+                           rel="noopener">
+                           Read more
+                           </a>`
+                        : ""
+                }
+            </div>
+        `;
+
+    } catch (error) {
+
+        resultsContainer.innerHTML = `
+            <h2>Results for: ${escapeHtml(query)}</h2>
+
+            <div class="result">
+                <h3>No result found</h3>
+                <p>
+                    ByteSearch couldn't find information about
+                    "${escapeHtml(query)}".
+                </p>
+            </div>
+        `;
+    }
+}
+
+function searchAgain() {
+    const newQuery = searchBox.value.trim();
 
     if (newQuery !== "") {
-
         window.location.href =
             "results.html?q=" +
             encodeURIComponent(newQuery);
     }
 }
+
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+    }
 
 </script>
 
