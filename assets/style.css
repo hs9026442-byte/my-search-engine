@@ -1,0 +1,58 @@
+/* assets/style.css — polished, accessible styles */
+:root{
+  --bg:#06132a; /* dark navy */
+  --panel:#071a33;
+  --accent:#168cff;
+  --muted:#9fb6cf;
+  --surface:#0b2a45;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:linear-gradient(180deg,var(--bg),#021026);
+  color:#eaf2ff;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:1100px;margin:0 auto;padding:22px}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.logo-img{width:44px;height:44px}
+.brand-text{font-size:20px}
+.brand-strong{color:var(--accent);font-weight:600}
+.nav-links a{color:var(--muted);text-decoration:none;margin-left:18px}
+.nav-links a:hover{color:var(--accent)}
+.site-header{border-bottom:1px solid rgba(255,255,255,0.04);background:transparent}
+
+.hero{display:grid;grid-template-columns:1fr 220px;gap:24px;align-items:center;padding:56px 0}
+.hero .title{font-size:38px;margin:0 0 10px}
+.hero .subtitle{color:var(--muted);margin:0 0 22px}
+.hero-visual .hero-logo{width:200px;opacity:0.95}
+
+.search-input-wrap{display:flex;gap:8px;align-items:center}
+.search-input-wrap input[type=search]{flex:1;padding:12px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.06);background:white;color:#071428;min-width:0}
+.btn-primary{background:var(--accent);border:none;color:white;padding:10px 16px;border-radius:999px;font-weight:600;cursor:pointer}
+.btn-primary:focus{outline:3px solid rgba(22,140,255,0.18);outline-offset:2px}
+.quick{margin-top:18px;display:flex;gap:10px}
+.quick-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+.quick-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+.results-section{padding:28px 0}
+.results-title{margin:18px 0}
+.result-area{display:block}
+.card{background:linear-gradient(180deg,var(--panel),var(--surface));border-radius:var(--radius);padding:18px;border:1px solid rgba(255,255,255,0.03);margin-bottom:12px}
+.card h3{color:var(--accent);margin:0 0 8px}
+.card p{color:var(--muted);margin:0}
+.card a{color:var(--accent);text-decoration:none}
+
+.loading{display:flex;align-items:center;gap:12px}
+.spinner{width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.site-footer{border-top:1px solid rgba(255,255,255,0.04);padding:18px 0;margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
+
+@media(max-width:900px){.hero{grid-template-columns:1fr;}.hero-visual{display:none}.container{padding:18px}}
