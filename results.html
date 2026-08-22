@@ -104,6 +104,64 @@ header {
     color: #c9d8eb;
 }
 
+/* Image Gallery */
+.images-section {
+    margin-top: 40px;
+}
+
+.images-section h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.image-card {
+    background: rgba(10,35,70,0.75);
+    border: 1px solid #31547e;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.image-card:hover {
+    transform: translateY(-5px);
+    border-color: #168cff;
+    box-shadow: 0 0 20px rgba(22, 140, 255, 0.3);
+}
+
+.image-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-title {
+    padding: 12px;
+    font-size: 13px;
+    color: #c9d8eb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.no-images {
+    color: #c9d8eb;
+    text-align: center;
+    padding: 20px;
+}
+
 @media (max-width: 600px) {
     .search-area {
         margin: 25px 15px;
@@ -111,6 +169,15 @@ header {
 
     .search-area button {
         padding: 0 17px;
+    }
+
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .image-card img {
+        height: 140px;
     }
 }
 </style>
@@ -145,6 +212,12 @@ header {
         <p class="loading">Loading results...</p>
     </div>
 
+    <!-- Images Section -->
+    <div class="images-section" id="imagesSection" style="display: none;">
+        <h2>Images</h2>
+        <div id="imageGallery" class="image-gallery"></div>
+    </div>
+
 </div>
 
 <script>
@@ -155,11 +228,14 @@ const query = params.get("q");
 const searchBox = document.getElementById("searchBox");
 const searchTitle = document.getElementById("searchTitle");
 const resultContent = document.getElementById("resultContent");
+const imagesSection = document.getElementById("imagesSection");
+const imageGallery = document.getElementById("imageGallery");
 
 if (query) {
     searchBox.value = query;
     searchTitle.textContent = "Results for: " + query;
     getResult(query);
+    getImages(query);
 } else {
     resultContent.innerHTML =
         "<p>Type something in the search box to begin.</p>";
@@ -211,6 +287,54 @@ async function getResult(query) {
                 "${escapeHtml(query)}".
             </p>
         `;
+    }
+}
+
+async function getImages(query) {
+    try {
+        // Using Bing Image Search API via RapidAPI
+        const url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + encodeURIComponent(query);
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': 'demo', // Replace with actual API key
+                'x-rapidapi-host': 'bing-image-search1.p.rapidapi.com'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch images");
+        }
+
+        const data = await response.json();
+        
+        if (data.value && data.value.length > 0) {
+            imagesSection.style.display = "block";
+            imageGallery.innerHTML = "";
+            
+            // Display first 12 images
+            data.value.slice(0, 12).forEach(image => {
+                const imageCard = document.createElement("div");
+                imageCard.className = "image-card";
+                imageCard.innerHTML = `
+                    <img src="${escapeHtml(image.thumbnail.contentUrl)}" 
+                         alt="${escapeHtml(image.name)}"
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3C/svg%3E'">
+                    <div class="image-title">${escapeHtml(image.name)}</div>
+                `;
+                
+                imageCard.addEventListener("click", () => {
+                    window.open(image.contentUrl, "_blank");
+                });
+                
+                imageGallery.appendChild(imageCard);
+            });
+        }
+
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        // Silently fail - don't disrupt the text results
     }
 }
 
