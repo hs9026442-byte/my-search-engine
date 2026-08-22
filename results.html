@@ -1,243 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ByteSearch Results - View your search results powered by Wikipedia.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#168cff">
 
-<title>ByteSearch Results</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/results.css">
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(circle at 15% 30%, #063d91 0%, transparent 30%),
-        linear-gradient(135deg, #020817, #001b3d, #020817);
-}
-
-header {
-    padding: 18px 6%;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #168cff;
-}
-
-.search-area {
-    max-width: 850px;
-    margin: 35px auto;
-    display: flex;
-    background: white;
-    border: 3px solid #168cff;
-    border-radius: 50px;
-    padding: 6px;
-}
-
-.search-area input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 14px 18px;
-    font-size: 17px;
-    border-radius: 40px;
-    min-width: 0;
-}
-
-.search-area button {
-    border: none;
-    background: #168cff;
-    color: white;
-    padding: 0 25px;
-    border-radius: 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.results {
-    max-width: 850px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-.results h2 {
-    margin-bottom: 25px;
-}
-
-.result {
-    background: rgba(10,35,70,0.75);
-    border: 1px solid #31547e;
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 15px;
-}
-
-.result h3 {
-    color: #168cff;
-    margin-bottom: 10px;
-}
-
-.result p {
-    color: #c9d8eb;
-    line-height: 1.6;
-}
-
-.result a {
-    display: inline-block;
-    margin-top: 15px;
-    color: #168cff;
-}
-
-.loading {
-    color: #c9d8eb;
-}
-
-@media (max-width: 600px) {
-    .search-area {
-        margin: 25px 15px;
-    }
-
-    .search-area button {
-        padding: 0 17px;
-    }
-}
-</style>
+    <title>ByteSearch Results</title>
 </head>
 
 <body>
+    <!-- Header -->
+    <header role="banner">
+        <div class="logo" onclick="window.location.href='index.html'" tabindex="0" role="button" aria-label="ByteSearch Home">
+            <a href="index.html" aria-label="Return to ByteSearch home">Byte<span>Search</span></a>
+        </div>
+    </header>
 
-<header>
-    <div class="logo">
-        Byte<span>Search</span>
+    <!-- Search Bar -->
+    <form class="search-area" onsubmit="searchAgain(); return false;">
+        <input
+            id="searchBox"
+            type="text"
+            placeholder="Search the web..."
+            aria-label="Search input"
+            autocomplete="off"
+        >
+        <button type="submit" aria-label="Search button">Search</button>
+    </form>
+
+    <!-- Results Container -->
+    <div class="results" role="main">
+        <h1 id="searchTitle" class="visually-hidden">Search Results</h1>
+        <h2 id="searchTitle">Search Results</h2>
+        <div id="resultContent" class="result">
+            <p class="loading">Loading results...</p>
+        </div>
     </div>
-</header>
 
-<div class="search-area">
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <div style="text-align: center; padding: 20px; color: #9db1ca; font-size: 12px;">
+            Powered by Wikipedia • © 2026 ByteSearch
+        </div>
+    </footer>
 
-    <input
-        id="searchBox"
-        type="text"
-        placeholder="Search the web..."
-        onkeydown="if(event.key === 'Enter') searchAgain()"
-    >
-
-    <button onclick="searchAgain()">Search</button>
-
-</div>
-
-<div class="results">
-
-    <h2 id="searchTitle">Search Results</h2>
-
-    <div id="resultContent" class="result">
-        <p class="loading">Loading results...</p>
-    </div>
-
-</div>
-
-<script>
-
-const params = new URLSearchParams(window.location.search);
-const query = params.get("q");
-
-const searchBox = document.getElementById("searchBox");
-const searchTitle = document.getElementById("searchTitle");
-const resultContent = document.getElementById("resultContent");
-
-if (query) {
-    searchBox.value = query;
-    searchTitle.textContent = "Results for: " + query;
-    getResult(query);
-} else {
-    resultContent.innerHTML =
-        "<p>Type something in the search box to begin.</p>";
-}
-
-async function getResult(query) {
-
-    const url =
-        "https://en.wikipedia.org/api/rest_v1/page/summary/" +
-        encodeURIComponent(query);
-
-    try {
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error("No result");
-        }
-
-        const data = await response.json();
-
-        resultContent.innerHTML = `
-            <h3>${escapeHtml(data.title || query)}</h3>
-
-            <p>
-                ${escapeHtml(
-                    data.extract || "No description was found."
-                )}
-            </p>
-
-            ${
-                data.content_urls?.desktop?.page
-                ? `<a href="${data.content_urls.desktop.page}"
-                     target="_blank"
-                     rel="noopener">
-                     Read more on Wikipedia →
-                   </a>`
-                : ""
-            }
-        `;
-
-    } catch (error) {
-
-        resultContent.innerHTML = `
-            <h3>No result found</h3>
-
-            <p>
-                ByteSearch couldn't find information about
-                "${escapeHtml(query)}".
-            </p>
-        `;
-    }
-}
-
-function searchAgain() {
-
-    const newQuery =
-        searchBox.value.trim();
-
-    if (newQuery !== "") {
-
-        window.location.href =
-            "results.html?q=" +
-            encodeURIComponent(newQuery);
-    }
-}
-
-function escapeHtml(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-</script>
-
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/results.js"></script>
 </body>
 </html>

@@ -1,320 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ByteSearch - A modern, lightweight search engine interface with quick access to popular web services and Wikipedia.">
+    <meta name="keywords" content="search engine, Wikipedia, Google, YouTube, Facebook, web search">
+    <meta name="author" content="ByteSearch Development Team">
+    <meta name="theme-color" content="#168cff">
 
-<title>ByteSearch</title>
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="ByteSearch - Search Smarter. See More.">
+    <meta property="og:description" content="A modern, lightweight search engine interface with quick access to popular web services and Wikipedia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hs9026442-byte.github.io/my-search-engine/">
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ByteSearch">
+    <meta name="twitter:description" content="A modern, lightweight search engine interface.">
 
-body {
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
-        radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
-        linear-gradient(135deg, #020817, #001b3d, #020817);
-    overflow-x: hidden;
-}
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23168cff' width='100' height='100' rx='20'/><text x='50' y='70' font-size='70' font-weight='bold' fill='%23020817' text-anchor='middle'>B</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23168cff' width='180' height='180' rx='30'/><text x='90' y='130' font-size='120' font-weight='bold' fill='%23020817' text-anchor='middle'>B</text></svg>">
 
-/* Navigation */
-nav {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 6%;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-}
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.logo-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ffffff, #168cff);
-    color: #06152d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 27px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0,140,255,0.5);
-}
-
-.byte {
-    color: white;
-}
-
-.search-word {
-    color: #168cff;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 25px;
-    font-size: 16px;
-}
-
-/* Main */
-main {
-    text-align: center;
-    padding: 75px 20px 40px;
-}
-
-.big-logo {
-    width: 100px;
-    height: 100px;
-    margin: auto;
-    border-radius: 28px;
-    background: linear-gradient(135deg, #ffffff, #087cff);
-    color: #06152d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 70px;
-    font-weight: bold;
-    box-shadow: 0 0 45px rgba(0,140,255,0.55);
-}
-
-h1 {
-    font-size: clamp(50px, 13vw, 100px);
-    margin-top: 20px;
-    letter-spacing: -4px;
-}
-
-h1 span {
-    color: #168cff;
-}
-
-.tagline {
-    font-size: 18px;
-    letter-spacing: 4px;
-    margin: 10px 0 35px;
-    color: #dceaff;
-}
-
-/* Search */
-.search-area {
-    max-width: 850px;
-    margin: auto;
-    display: flex;
-    background: white;
-    border: 3px solid #168cff;
-    border-radius: 50px;
-    padding: 6px;
-    box-shadow: 0 0 30px rgba(0,140,255,0.35);
-}
-
-.search-area input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 15px 20px;
-    font-size: 17px;
-    border-radius: 40px;
-    min-width: 0;
-}
-
-.search-area button {
-    border: none;
-    background: #168cff;
-    color: white;
-    padding: 0 28px;
-    border-radius: 40px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.search-area button:active {
-    transform: scale(0.97);
-}
-
-/* Quick Search */
-.quick-title {
-    margin: 35px 0 18px;
-    font-size: 22px;
-}
-
-.quick {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    max-width: 900px;
-    margin: auto;
-}
-
-.quick button {
-    background: rgba(20,40,75,0.8);
-    color: white;
-    border: 1px solid #31547e;
-    padding: 13px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.quick button:hover {
-    border-color: #168cff;
-    background: #0b2c55;
-}
-
-/* Footer */
-footer {
-    margin-top: 80px;
-    padding: 25px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    color: #9db1ca;
-    font-size: 14px;
-}
-
-/* Phone */
-@media (max-width: 600px) {
-
-    nav {
-        padding: 0 18px;
-    }
-
-    nav a {
-        display: none;
-    }
-
-    .logo {
-        font-size: 21px;
-    }
-
-    main {
-        padding-top: 55px;
-    }
-
-    .big-logo {
-        width: 80px;
-        height: 80px;
-        font-size: 55px;
-    }
-
-    h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
-    }
-
-    .tagline {
-        font-size: 13px;
-        letter-spacing: 2px;
-    }
-
-    .search-area {
-        width: 100%;
-    }
-
-    .search-area input {
-        padding: 13px 12px;
-        font-size: 15px;
-    }
-
-    .search-area button {
-        padding: 0 18px;
-        font-size: 15px;
-    }
-}
-</style>
+    <title>ByteSearch - Search Smarter. See More.</title>
 </head>
 
 <body>
-
-<nav>
-    <div class="logo">
-        <div class="logo-icon">B</div>
-        <div>
-            <span class="byte">Byte</span><span class="search-word">Search</span>
+    <!-- Navigation -->
+    <nav role="navigation" aria-label="Main navigation">
+        <div class="logo" onclick="window.location.href='index.html'" tabindex="0" role="button" aria-label="ByteSearch Home">
+            <div class="logo-icon" aria-hidden="true">B</div>
+            <div>
+                <span class="byte">Byte</span><span class="search-word">Search</span>
+            </div>
         </div>
-    </div>
 
-    <div>
-        <a href="#">Home</a>
-        <a href="#">Search</a>
-        <a href="#">About</a>
-    </div>
-</nav>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="#" aria-label="Search">Search</a>
+            <a href="#" aria-label="About ByteSearch">About</a>
+        </div>
+    </nav>
 
-<main>
+    <!-- Main Content -->
+    <main role="main">
+        <!-- Logo -->
+        <div class="big-logo" aria-hidden="true">B</div>
 
-    <div class="big-logo">B</div>
+        <!-- Title -->
+        <h1>
+            Byte<span>Search</span>
+        </h1>
 
-    <h1>Byte<span>Search</span></h1>
+        <!-- Tagline -->
+        <p class="tagline">SEARCH SMARTER. SEE MORE.</p>
 
-    <p class="tagline">
-        SEARCH SMARTER. SEE MORE.
-    </p>
+        <!-- Search Bar -->
+        <form class="search-area" onsubmit="search(); return false;">
+            <input
+                id="searchBox"
+                type="text"
+                placeholder="Search the web..."
+                aria-label="Search input"
+                autocomplete="off"
+            >
+            <button type="submit" aria-label="Search button">🔍 Search</button>
+        </form>
 
-    <div class="search-area">
-        <input
-            id="searchBox"
-            type="text"
-            placeholder="Search the web..."
-            onkeydown="if(event.key === 'Enter') search()"
-        >
+        <!-- Quick Search -->
+        <h2 class="quick-title">Quick Search</h2>
+        <div class="quick" role="group" aria-label="Quick search options">
+            <button onclick="quickSearch('Google')" aria-label="Quick search Google">Google</button>
+            <button onclick="quickSearch('YouTube')" aria-label="Quick search YouTube">YouTube</button>
+            <button onclick="quickSearch('Facebook')" aria-label="Quick search Facebook">Facebook</button>
+            <button onclick="quickSearch('Wikipedia')" aria-label="Quick search Wikipedia">Wikipedia</button>
+        </div>
+    </main>
 
-        <button onclick="search()">
-            🔍 Search
-        </button>
-    </div>
+    <!-- Footer -->
+    <footer role="contentinfo">
+        © 2026 ByteSearch • Search Smarter. See More. | <a href="#">Privacy</a> • <a href="#">Terms</a>
+    </footer>
 
-    <h2 class="quick-title">Quick Search</h2>
-
-    <div class="quick">
-        <button onclick="quickSearch('Google')">Google</button>
-        <button onclick="quickSearch('YouTube')">YouTube</button>
-        <button onclick="quickSearch('Facebook')">Facebook</button>
-        <button onclick="quickSearch('Wikipedia')">Wikipedia</button>
-    </div>
-
-</main>
-
-<footer>
-    © 2026 ByteSearch • Search Smarter. See More.
-</footer>
-
-<script>
-
-function search() {
-    const query = document.getElementById("searchBox").value.trim();
-
-    if (!query) {
-        return;
-    }
-
-    window.location.href =
-        "results.html?q=" + encodeURIComponent(query);
-    }
-
-function quickSearch(site) {
-    document.getElementById("searchBox").value = site;
-    search();
-}
-
-
-
-
-</script>
-
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/search.js"></script>
 </body>
-    </html>
+</html>

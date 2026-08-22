@@ -1,0 +1,111 @@
+/* ============================================
+   COMMON STYLES - Shared across all pages
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #020817;
+    --secondary-color: #001b3d;
+    --accent-color: #168cff;
+    --border-color: #31547e;
+    --text-light: #dceaff;
+    --text-muted: #9db1ca;
+    --text-dark: #c9d8eb;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    min-height: 100vh;
+    color: white;
+    background: radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
+        radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
+        linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0a7bff;
+}
+
+button {
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Utilities */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+a:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Responsive text */
+@media (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
+}
