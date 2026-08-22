@@ -9,117 +9,108 @@
 <style>
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f8fc;
-    color: #172033;
+    min-height: 100vh;
+    color: white;
+    background:
+        radial-gradient(circle at 15% 30%, #063d91 0%, transparent 30%),
+        linear-gradient(135deg, #020817, #001b3d, #020817);
 }
 
-/* Header */
 header {
-    background: #020817;
-    padding: 18px 5%;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    padding: 18px 6%;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
 .logo {
-    color: white;
-    font-size: 24px;
+    font-size: 25px;
     font-weight: bold;
-    white-space: nowrap;
 }
 
 .logo span {
     color: #168cff;
 }
 
-.search-box {
-    flex: 1;
-    max-width: 700px;
+.search-area {
+    max-width: 850px;
+    margin: 35px auto;
     display: flex;
     background: white;
-    border-radius: 30px;
-    padding: 5px;
+    border: 3px solid #168cff;
+    border-radius: 50px;
+    padding: 6px;
 }
 
-.search-box input {
+.search-area input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 12px 18px;
-    font-size: 16px;
+    padding: 14px 18px;
+    font-size: 17px;
+    border-radius: 40px;
+    min-width: 0;
 }
 
-.search-box button {
+.search-area button {
     border: none;
     background: #168cff;
     color: white;
-    border-radius: 25px;
-    padding: 0 22px;
+    padding: 0 25px;
+    border-radius: 40px;
     font-weight: bold;
+    cursor: pointer;
 }
 
-/* Results */
-.container {
-    max-width: 900px;
-    margin: 35px auto;
+.results {
+    max-width: 850px;
+    margin: 20px auto;
     padding: 0 20px;
 }
 
-#queryText {
-    color: #168cff;
+.results h2 {
+    margin-bottom: 25px;
 }
 
 .result {
-    background: white;
-    margin: 18px 0;
+    background: rgba(10,35,70,0.75);
+    border: 1px solid #31547e;
+    border-radius: 14px;
     padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #e1e8f0;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
 }
 
-.result h2 {
-    margin: 0 0 8px;
-    color: #086ed8;
-    font-size: 20px;
+.result h3 {
+    color: #168cff;
+    margin-bottom: 10px;
 }
 
 .result p {
-    margin: 0;
-    color: #56657a;
-    line-height: 1.5;
+    color: #c9d8eb;
+    line-height: 1.6;
 }
 
 .result a {
+    display: inline-block;
+    margin-top: 15px;
     color: #168cff;
-    text-decoration: none;
-    font-size: 14px;
 }
 
-/* Mobile */
+.loading {
+    color: #c9d8eb;
+}
+
 @media (max-width: 600px) {
-
-    header {
-        flex-direction: column;
-        align-items: stretch;
+    .search-area {
+        margin: 25px 15px;
     }
 
-    .logo {
-        text-align: center;
-    }
-
-    .search-box {
-        width: 100%;
-    }
-
-    .search-box button {
-        padding: 0 15px;
+    .search-area button {
+        padding: 0 17px;
     }
 }
 </style>
@@ -128,39 +119,30 @@ header {
 <body>
 
 <header>
-
     <div class="logo">
         Byte<span>Search</span>
     </div>
-
-    <div class="search-box">
-        <input id="searchInput" type="text">
-        <button onclick="newSearch()">Search</button>
-    </div>
-
 </header>
 
-<div class="container">
+<div class="search-area">
 
-    <h1>
-        Search results for:
-        <span id="queryText"></span>
-    </h1>
+    <input
+        id="searchBox"
+        type="text"
+        placeholder="Search the web..."
+        onkeydown="if(event.key === 'Enter') searchAgain()"
+    >
 
-    <div class="result">
-        <h2>Welcome to ByteSearch</h2>
-        <p>
-            Your search results will appear here.
-            ByteSearch is being built to provide a fast and simple search experience.
-        </p>
-        <a href="index.html">Back to ByteSearch</a>
-    </div>
+    <button onclick="searchAgain()">Search</button>
 
-    <div class="result">
-        <h2>Search technology coming soon</h2>
-        <p>
-            This results page is the beginning of the ByteSearch search system.
-        </p>
+</div>
+
+<div class="results">
+
+    <h2 id="searchTitle">Search Results</h2>
+
+    <div id="resultContent" class="result">
+        <p class="loading">Loading results...</p>
     </div>
 
 </div>
@@ -172,20 +154,25 @@ const query = params.get("q");
 
 const searchBox = document.getElementById("searchBox");
 const searchTitle = document.getElementById("searchTitle");
-const resultsContainer = document.querySelector(".results");
+const resultContent = document.getElementById("resultContent");
 
 if (query) {
     searchBox.value = query;
     searchTitle.textContent = "Results for: " + query;
     getResult(query);
+} else {
+    resultContent.innerHTML =
+        "<p>Type something in the search box to begin.</p>";
 }
 
 async function getResult(query) {
+
     const url =
         "https://en.wikipedia.org/api/rest_v1/page/summary/" +
         encodeURIComponent(query);
 
     try {
+
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -194,47 +181,46 @@ async function getResult(query) {
 
         const data = await response.json();
 
-        resultsContainer.innerHTML = `
-            <h2>Results for: ${escapeHtml(query)}</h2>
+        resultContent.innerHTML = `
+            <h3>${escapeHtml(data.title || query)}</h3>
 
-            <div class="result">
-                <h3>${escapeHtml(data.title || query)}</h3>
-                <p>${escapeHtml(
+            <p>
+                ${escapeHtml(
                     data.extract || "No description was found."
-                )}</p>
+                )}
+            </p>
 
-                ${
-                    data.content_urls?.desktop?.page
-                        ? `<a href="${data.content_urls.desktop.page}"
-                           target="_blank"
-                           rel="noopener">
-                           Read more
-                           </a>`
-                        : ""
-                }
-            </div>
+            ${
+                data.content_urls?.desktop?.page
+                ? `<a href="${data.content_urls.desktop.page}"
+                     target="_blank"
+                     rel="noopener">
+                     Read more on Wikipedia →
+                   </a>`
+                : ""
+            }
         `;
 
     } catch (error) {
 
-        resultsContainer.innerHTML = `
-            <h2>Results for: ${escapeHtml(query)}</h2>
+        resultContent.innerHTML = `
+            <h3>No result found</h3>
 
-            <div class="result">
-                <h3>No result found</h3>
-                <p>
-                    ByteSearch couldn't find information about
-                    "${escapeHtml(query)}".
-                </p>
-            </div>
+            <p>
+                ByteSearch couldn't find information about
+                "${escapeHtml(query)}".
+            </p>
         `;
     }
 }
 
 function searchAgain() {
-    const newQuery = searchBox.value.trim();
+
+    const newQuery =
+        searchBox.value.trim();
 
     if (newQuery !== "") {
+
         window.location.href =
             "results.html?q=" +
             encodeURIComponent(newQuery);
@@ -242,10 +228,14 @@ function searchAgain() {
 }
 
 function escapeHtml(text) {
-    const div = document.createElement("div");
+
+    const div =
+        document.createElement("div");
+
     div.textContent = text;
+
     return div.innerHTML;
-    }
+}
 
 </script>
 
