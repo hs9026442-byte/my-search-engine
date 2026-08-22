@@ -11,7 +11,7 @@ const resultContent = document.getElementById('resultContent');
 const query = getUrlParam('q');
 
 /**
- * Fetches search results from Wikipedia API
+ * Fetches search results from Wikipedia API with images
  * @param {string} query - Search query
  */
 async function getResult(query) {
@@ -25,7 +25,7 @@ async function getResult(query) {
         resultContent.innerHTML = '<p class="loading">Loading results...</p>';
         resultContent.className = 'result loading';
 
-        // Wikipedia API endpoint
+        // Wikipedia API endpoint for page summary
         const apiUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(query);
 
         // Fetch from Wikipedia
@@ -44,7 +44,8 @@ async function getResult(query) {
 
         // Process successful response
         if (data && data.title) {
-            displayResult(data);
+            // Try to get image from page
+            await fetchAndDisplayResult(data, query);
             logEvent('search_success', { query: query });
         } else {
             displayNoResult(query);
@@ -58,16 +59,94 @@ async function getResult(query) {
 }
 
 /**
- * Displays search result on page
+ * Fetches image and displays complete result
  * @param {object} data - Wikipedia API response data
+ * @param {string} query - Search query
  */
-function displayResult(data) {
+async function fetchAndDisplayResult(data, query) {
+    try {
+        // Get page image from Wikipedia
+        const imageUrl = await getWikipediaImage(data.title);
+        displayResult(data, imageUrl);
+    } catch (error) {
+        console.warn('Could not fetch image:', error);
+        // Display result without image if image fetch fails
+        displayResult(data, null);
+    }
+}
+
+/**
+ * Fetches image URL from Wikipedia page
+ * @param {string} pageTitle - Wikipedia page title
+ * @returns {string|null} Image URL or null
+ */
+async function getWikipediaImage(pageTitle) {
+    try {
+        const imageApiUrl = 'https://en.wikipedia.org/api/rest_v1/page/media/' + encodeURIComponent(pageTitle);
+        
+        const response = await fetch(imageApiUrl, {
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'ByteSearch (https://github.com/hs9026442-byte/my-search-engine)'
+            }
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const data = await response.json();
+
+        // Look for the first image in the media list
+        if (data.items && data.items.length > 0) {
+            for (let item of data.items) {
+                // Prefer images (jpg, png) over other media
+                if (item.type === 'image' && item.srcset) {
+                    // Get the highest quality version
+                    const srcset = item.srcset;
+                    if (srcset && srcset.length > 0) {
+                        // Return the URL with the best quality
+                        return srcset[srcset.length - 1].src;
+                    }
+                }
+            }
+        }
+        return null;
+    } catch (error) {
+        console.warn('Error fetching Wikipedia image:', error);
+        return null;
+    }
+}
+
+/**
+ * Displays search result on page with optional image
+ * @param {object} data - Wikipedia API response data
+ * @param {string|null} imageUrl - Image URL or null
+ */
+function displayResult(data, imageUrl) {
     const readMoreUrl = data.content_urls?.desktop?.page || '';
     const extract = data.extract || 'No description available.';
     const title = data.title || '';
 
     resultContent.className = 'result';
+    
+    let imageHtml = '';
+    if (imageUrl) {
+        imageHtml = `
+            <div class="result-image-container">
+                <img 
+                    src="${escapeHtml(imageUrl)}" 
+                    alt="${escapeHtml(title)}" 
+                    class="result-image"
+                    loading="lazy"
+                    onerror="this.parentElement.style.display='none'"
+                >
+            </div>
+        `;
+    }
+
     resultContent.innerHTML = `
+        ${imageHtml}
         <h3>${escapeHtml(title)}</h3>
         <p>${escapeHtml(extract)}</p>
         ${readMoreUrl ? `
