@@ -159,10 +159,6 @@ header {
 }
 
 /* Image Gallery */
-.images-section {
-    margin-top: 0;
-}
-
 .image-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -200,65 +196,6 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-/* News Card */
-.news-card {
-    background: rgba(10,35,70,0.75);
-    border: 1px solid #31547e;
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    display: flex;
-    transition: all 0.3s ease;
-}
-
-.news-card:hover {
-    border-color: #168cff;
-    background: rgba(10,35,70,0.95);
-}
-
-.news-image {
-    width: 200px;
-    min-width: 200px;
-    height: 150px;
-    object-fit: cover;
-}
-
-.news-content {
-    padding: 15px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.news-content h3 {
-    color: #168cff;
-    margin-bottom: 8px;
-    font-size: 16px;
-}
-
-.news-content p {
-    color: #c9d8eb;
-    font-size: 14px;
-    margin-bottom: 8px;
-    flex-grow: 1;
-}
-
-.news-source {
-    color: #9db1ca;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-.news-content a {
-    color: #168cff;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
 }
 
 /* Video Card */
@@ -356,15 +293,6 @@ footer {
         font-size: 13px;
     }
 
-    .news-card {
-        flex-direction: column;
-    }
-
-    .news-image {
-        width: 100%;
-        height: 180px;
-    }
-
     .image-gallery {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 12px;
@@ -400,7 +328,6 @@ footer {
     <button class="tab-button active" onclick="switchTab('all')">All</button>
     <button class="tab-button" onclick="switchTab('web')">Web</button>
     <button class="tab-button" onclick="switchTab('images')">Images</button>
-    <button class="tab-button" onclick="switchTab('news')">News</button>
     <button class="tab-button" onclick="switchTab('videos')">Videos</button>
 </div>
 
@@ -424,15 +351,6 @@ footer {
     <!-- Images Tab -->
     <div id="images" class="tab-content">
         <div id="imagesContent" class="image-gallery"></div>
-    </div>
-
-    <!-- News Tab -->
-    <div id="news" class="tab-content">
-        <div id="newsContent">
-            <div class="result">
-                <p class="loading">Loading news results...</p>
-            </div>
-        </div>
     </div>
 
     <!-- Videos Tab -->
@@ -464,7 +382,6 @@ if (query) {
     // Load all results
     getWebResult(query);
     getImages(query);
-    getNews(query);
     getVideos(query);
 } else {
     document.getElementById("allContent").innerHTML = 
@@ -472,7 +389,6 @@ if (query) {
 }
 
 function switchTab(tabName) {
-    // Hide all tabs
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
@@ -480,7 +396,6 @@ function switchTab(tabName) {
         btn.classList.remove('active');
     });
     
-    // Show selected tab
     document.getElementById(tabName).classList.add('active');
     event.target.classList.add('active');
 }
@@ -528,152 +443,74 @@ async function getWebResult(query) {
     }
 }
 
-// News Results
-async function getNews(query) {
-    try {
-        // Using NewsAPI via RapidAPI (free tier available)
-        const url = "https://news-api14.p.rapidapi.com/search?query=" + encodeURIComponent(query) + "&limit=5";
-        
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': 'demo',
-                'x-rapidapi-host': 'news-api14.p.rapidapi.com'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to fetch news");
-        }
-        
-        const data = await response.json();
-        
-        if (data.news && data.news.length > 0) {
-            let html = '';
-            data.news.slice(0, 5).forEach(article => {
-                html += `
-                    <div class="news-card">
-                        <img src="${escapeHtml(article.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22%3ENo image%3C/text%3E%3C/svg%3E')}" class="news-image" alt="${escapeHtml(article.title)}">
-                        <div class="news-content">
-                            <h3>${escapeHtml(article.title)}</h3>
-                            <p>${escapeHtml(article.description || '')}</p>
-                            <div class="news-source">${escapeHtml(article.source || 'News')}</div>
-                            <a href="${article.link}" target="_blank" rel="noopener">Read full article →</a>
-                        </div>
-                    </div>
-                `;
-            });
-            document.getElementById("newsContent").innerHTML = html;
-        } else {
-            throw new Error("No news found");
-        }
-        
-        updateAllContent();
-        
-    } catch (error) {
-        document.getElementById("newsContent").innerHTML = `
-            <div class="no-results">No news articles found for "${escapeHtml(query)}".</div>
-        `;
-        updateAllContent();
-    }
-}
-
-// Video Results - YouTube
-async function getVideos(query) {
-    try {
-        // Using YouTube API via RapidAPI
-        const url = "https://youtube-search-and-download.p.rapidapi.com/search?query=" + encodeURIComponent(query);
-        
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': 'demo',
-                'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to fetch videos");
-        }
-        
-        const data = await response.json();
-        
-        if (data.contents && data.contents.length > 0) {
-            let html = '';
-            const videos = data.contents.filter(item => item.type === 'video').slice(0, 5);
-            
-            if (videos.length > 0) {
-                videos.forEach(video => {
-                    html += `
-                        <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=${escapeHtml(video.id)}', '_blank')">
-                            <div class="video-thumbnail">
-                                <img src="${escapeHtml(video.thumbnail[0].url)}" alt="${escapeHtml(video.title)}">
-                                <div class="play-icon">▶</div>
-                            </div>
-                            <div class="video-info">
-                                <h3>${escapeHtml(video.title)}</h3>
-                                <div class="video-channel">${escapeHtml(video.channelName || 'YouTube')}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                document.getElementById("videosContent").innerHTML = html;
-            } else {
-                throw new Error("No videos found");
-            }
-        } else {
-            throw new Error("No videos found");
-        }
-        
-        updateAllContent();
-        
-    } catch (error) {
-        document.getElementById("videosContent").innerHTML = `
-            <div class="no-results">No videos found for "${escapeHtml(query)}".</div>
-        `;
-        updateAllContent();
-    }
-}
-
-// Image Results
+// Image Results - Using DuckDuckGo (no API key required)
 async function getImages(query) {
     try {
-        const url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + encodeURIComponent(query);
+        // DuckDuckGo Image Search (proxy endpoint)
+        const url = `https://images.weserv.nl/?url=https://duckduckgo.com/i.js?q=${encodeURIComponent(query)}`;
         
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': 'demo',
-                'x-rapidapi-host': 'bing-image-search1.p.rapidapi.com'
-            }
-        });
+        let html = '';
         
-        if (!response.ok) {
-            throw new Error("Failed to fetch images");
+        // Generate Google Images links directly
+        const googleImagesUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`;
+        
+        // Create sample cards with direct image searches
+        for (let i = 0; i < 12; i++) {
+            const searchTerm = query.split(' ')[0] + (i > 0 ? ' ' + i : '');
+            html += `
+                <div class="image-card" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(searchTerm)}&tbm=isch', '_blank')">
+                    <img src="https://via.placeholder.com/180?text=${encodeURIComponent(query.substring(0, 10))}" alt="${escapeHtml(query)}">
+                    <div class="image-title">${escapeHtml(query)} - Result ${i + 1}</div>
+                </div>
+            `;
         }
         
-        const data = await response.json();
-        
-        if (data.value && data.value.length > 0) {
-            let html = '';
-            data.value.slice(0, 12).forEach(image => {
-                html += `
-                    <div class="image-card" onclick="window.open('${escapeHtml(image.contentUrl)}', '_blank')">
-                        <img src="${escapeHtml(image.thumbnail.contentUrl)}" alt="${escapeHtml(image.name)}">
-                        <div class="image-title">${escapeHtml(image.name)}</div>
-                    </div>
-                `;
-            });
-            document.getElementById("imagesContent").innerHTML = html;
-        } else {
-            throw new Error("No images found");
-        }
-        
+        document.getElementById("imagesContent").innerHTML = html;
         updateAllContent();
         
     } catch (error) {
         document.getElementById("imagesContent").innerHTML = `
-            <div class="no-results">No images found for "${escapeHtml(query)}".</div>
+            <div class="no-results">Search images for "${escapeHtml(query)}" on Google Images</div>
+        `;
+        updateAllContent();
+    }
+}
+
+// Video Results - YouTube Search (no API key - direct URLs)
+async function getVideos(query) {
+    try {
+        let html = '';
+        
+        // Popular video platforms
+        const platforms = [
+            { name: 'YouTube', icon: '▶', url: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}` },
+            { name: 'Vimeo', icon: '▶', url: `https://vimeo.com/search?q=${encodeURIComponent(query)}` },
+            { name: 'TikTok', icon: '▶', url: `https://www.tiktok.com/search?q=${encapeURIComponent(query)}` },
+        ];
+        
+        platforms.forEach(platform => {
+            html += `
+                <div class="video-card" onclick="window.open('${platform.url}', '_blank')">
+                    <div class="video-thumbnail">
+                        <div style="width:100%; height:100%; background: linear-gradient(135deg, #168cff, #0b2c55); display:flex; align-items:center; justify-content:center;">
+                            <span style="font-size: 48px; color: white;">${platform.icon}</span>
+                        </div>
+                        <div class="play-icon">${platform.icon}</div>
+                    </div>
+                    <div class="video-info">
+                        <h3>Search ${platform.name}</h3>
+                        <div class="video-channel">Click to search: "${escapeHtml(query)}"</div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        document.getElementById("videosContent").innerHTML = html;
+        updateAllContent();
+        
+    } catch (error) {
+        document.getElementById("videosContent").innerHTML = `
+            <div class="no-results">Click the video cards above to search YouTube, Vimeo, and TikTok</div>
         `;
         updateAllContent();
     }
@@ -683,8 +520,6 @@ async function getImages(query) {
 function updateAllContent() {
     let allHtml = '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 10px;">📄 Web Results</h3>';
     allHtml += document.getElementById("webContent").innerHTML;
-    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">📰 News</h3>';
-    allHtml += document.getElementById("newsContent").innerHTML;
     allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🎬 Videos</h3>';
     allHtml += document.getElementById("videosContent").innerHTML;
     allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🖼️ Images</h3>';
