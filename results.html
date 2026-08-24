@@ -67,37 +67,6 @@ header {
     cursor: pointer;
 }
 
-/* Tabs */
-.tabs {
-    max-width: 850px;
-    margin: 20px auto;
-    display: flex;
-    gap: 15px;
-    padding: 0 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-
-.tab-button {
-    background: none;
-    border: none;
-    color: #9db1ca;
-    cursor: pointer;
-    padding: 12px 0;
-    font-size: 15px;
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.tab-button.active {
-    color: #168cff;
-    border-bottom-color: #168cff;
-}
-
-.tab-button:hover {
-    color: #168cff;
-}
-
 .results {
     max-width: 850px;
     margin: 20px auto;
@@ -108,27 +77,16 @@ header {
     margin-bottom: 25px;
 }
 
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Generic Result Card */
 .result {
     background: rgba(10,35,70,0.75);
     border: 1px solid #31547e;
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 15px;
-    transition: all 0.3s ease;
 }
 
 .result:hover {
     border-color: #168cff;
-    background: rgba(10,35,70,0.95);
 }
 
 .result h3 {
@@ -147,7 +105,6 @@ header {
     margin-top: 15px;
     color: #168cff;
     text-decoration: none;
-    font-weight: 500;
 }
 
 .result a:hover {
@@ -158,108 +115,41 @@ header {
     color: #c9d8eb;
 }
 
-/* Image Gallery */
-.image-gallery {
+/* Quick Links */
+.quick-links {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
-    margin-bottom: 20px;
+    margin: 30px 0;
 }
 
-.image-card {
-    background: rgba(10,35,70,0.75);
-    border: 1px solid #31547e;
+.quick-link {
+    background: rgba(22, 140, 255, 0.2);
+    border: 1px solid #168cff;
     border-radius: 12px;
-    overflow: hidden;
+    padding: 20px;
+    text-align: center;
     cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.image-card:hover {
+.quick-link:hover {
+    background: rgba(22, 140, 255, 0.4);
     transform: translateY(-5px);
-    border-color: #168cff;
-    box-shadow: 0 0 20px rgba(22, 140, 255, 0.3);
 }
 
-.image-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    display: block;
+.quick-link-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
 }
 
-.image-title {
-    padding: 12px;
-    font-size: 13px;
-    color: #c9d8eb;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.4;
-}
-
-/* Video Card */
-.video-card {
-    background: rgba(10,35,70,0.75);
-    border: 1px solid #31547e;
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.video-card:hover {
-    border-color: #168cff;
-    background: rgba(10,35,70,0.95);
-    transform: translateY(-3px);
-}
-
-.video-thumbnail {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.play-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    background: rgba(22, 140, 255, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    transition: all 0.3s ease;
-}
-
-.video-card:hover .play-icon {
-    background: #168cff;
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.video-info {
-    padding: 15px;
-}
-
-.video-info h3 {
+.quick-link-title {
     color: #168cff;
-    margin-bottom: 8px;
-    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.video-channel {
+.quick-link-desc {
     color: #9db1ca;
     font-size: 13px;
 }
@@ -273,33 +163,13 @@ footer {
     font-size: 14px;
 }
 
-.no-results {
-    color: #c9d8eb;
-    text-align: center;
-    padding: 40px 20px;
-}
-
 @media (max-width: 600px) {
     .search-area {
         margin: 25px 15px;
     }
 
-    .tabs {
-        padding: 0 15px;
-        gap: 10px;
-    }
-
-    .tab-button {
-        font-size: 13px;
-    }
-
-    .image-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
-    }
-
-    .image-card img {
-        height: 140px;
+    .quick-links {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 </style>
@@ -323,42 +193,48 @@ footer {
     <button onclick="searchAgain()">Search</button>
 </div>
 
-<!-- Tabs -->
-<div class="tabs">
-    <button class="tab-button active" onclick="switchTab('all')">All</button>
-    <button class="tab-button" onclick="switchTab('web')">Web</button>
-    <button class="tab-button" onclick="switchTab('images')">Images</button>
-    <button class="tab-button" onclick="switchTab('videos')">Videos</button>
-</div>
-
 <div class="results">
     <h2 id="searchTitle">Search Results</h2>
 
-    <!-- All Results Tab -->
-    <div id="all" class="tab-content active">
-        <div id="allContent"></div>
-    </div>
-
-    <!-- Web Results Tab -->
-    <div id="web" class="tab-content">
-        <div id="webContent">
-            <div class="result">
-                <p class="loading">Loading web results...</p>
-            </div>
+    <!-- Web Results -->
+    <div id="webContent">
+        <div class="result">
+            <p class="loading">Loading web results...</p>
         </div>
     </div>
 
-    <!-- Images Tab -->
-    <div id="images" class="tab-content">
-        <div id="imagesContent" class="image-gallery"></div>
-    </div>
-
-    <!-- Videos Tab -->
-    <div id="videos" class="tab-content">
-        <div id="videosContent">
-            <div class="result">
-                <p class="loading">Loading video results...</p>
-            </div>
+    <!-- Quick Search Links -->
+    <h3 style="color: #168cff; margin-top: 40px; margin-bottom: 20px;">🔍 Search on Other Platforms</h3>
+    <div class="quick-links">
+        <div class="quick-link" onclick="searchOn('google')">
+            <div class="quick-link-icon">🔗</div>
+            <div class="quick-link-title">Google</div>
+            <div class="quick-link-desc">Web Search</div>
+        </div>
+        <div class="quick-link" onclick="searchOn('images')">
+            <div class="quick-link-icon">🖼️</div>
+            <div class="quick-link-title">Google Images</div>
+            <div class="quick-link-desc">Image Search</div>
+        </div>
+        <div class="quick-link" onclick="searchOn('youtube')">
+            <div class="quick-link-icon">🎬</div>
+            <div class="quick-link-title">YouTube</div>
+            <div class="quick-link-desc">Video Search</div>
+        </div>
+        <div class="quick-link" onclick="searchOn('wikipedia')">
+            <div class="quick-link-icon">📖</div>
+            <div class="quick-link-title">Wikipedia</div>
+            <div class="quick-link-desc">Knowledge Base</div>
+        </div>
+        <div class="quick-link" onclick="searchOn('reddit')">
+            <div class="quick-link-icon">💬</div>
+            <div class="quick-link-title">Reddit</div>
+            <div class="quick-link-desc">Community</div>
+        </div>
+        <div class="quick-link" onclick="searchOn('twitter')">
+            <div class="quick-link-icon">𝕏</div>
+            <div class="quick-link-title">Twitter/X</div>
+            <div class="quick-link-desc">Social Media</div>
         </div>
     </div>
 </div>
@@ -374,30 +250,15 @@ const query = params.get("q");
 
 const searchBox = document.getElementById("searchBox");
 const searchTitle = document.getElementById("searchTitle");
+const webContent = document.getElementById("webContent");
 
 if (query) {
     searchBox.value = query;
     searchTitle.textContent = "Results for: " + query;
-    
-    // Load all results
     getWebResult(query);
-    getImages(query);
-    getVideos(query);
 } else {
-    document.getElementById("allContent").innerHTML = 
-        "<p class='no-results'>Type something in the search box to begin.</p>";
-}
-
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+    webContent.innerHTML = 
+        "<p style='color: #c9d8eb; text-align: center; padding: 40px;'>Type something in the search box to begin.</p>";
 }
 
 // Web Results - Wikipedia
@@ -429,103 +290,39 @@ async function getWebResult(query) {
             </div>
         `;
         
-        document.getElementById("webContent").innerHTML = html;
-        updateAllContent();
+        webContent.innerHTML = html;
         
     } catch (error) {
-        document.getElementById("webContent").innerHTML = `
+        webContent.innerHTML = `
             <div class="result">
                 <h3>No result found</h3>
                 <p>ByteSearch couldn't find information about "${escapeHtml(query)}".</p>
             </div>
         `;
-        updateAllContent();
     }
 }
 
-// Image Results - Using DuckDuckGo (no API key required)
-async function getImages(query) {
-    try {
-        // DuckDuckGo Image Search (proxy endpoint)
-        const url = `https://images.weserv.nl/?url=https://duckduckgo.com/i.js?q=${encodeURIComponent(query)}`;
-        
-        let html = '';
-        
-        // Generate Google Images links directly
-        const googleImagesUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`;
-        
-        // Create sample cards with direct image searches
-        for (let i = 0; i < 12; i++) {
-            const searchTerm = query.split(' ')[0] + (i > 0 ? ' ' + i : '');
-            html += `
-                <div class="image-card" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(searchTerm)}&tbm=isch', '_blank')">
-                    <img src="https://via.placeholder.com/180?text=${encodeURIComponent(query.substring(0, 10))}" alt="${escapeHtml(query)}">
-                    <div class="image-title">${escapeHtml(query)} - Result ${i + 1}</div>
-                </div>
-            `;
-        }
-        
-        document.getElementById("imagesContent").innerHTML = html;
-        updateAllContent();
-        
-    } catch (error) {
-        document.getElementById("imagesContent").innerHTML = `
-            <div class="no-results">Search images for "${escapeHtml(query)}" on Google Images</div>
-        `;
-        updateAllContent();
-    }
-}
-
-// Video Results - YouTube Search (no API key - direct URLs)
-async function getVideos(query) {
-    try {
-        let html = '';
-        
-        // Popular video platforms
-        const platforms = [
-            { name: 'YouTube', icon: '▶', url: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}` },
-            { name: 'Vimeo', icon: '▶', url: `https://vimeo.com/search?q=${encodeURIComponent(query)}` },
-            { name: 'TikTok', icon: '▶', url: `https://www.tiktok.com/search?q=${encapeURIComponent(query)}` },
-        ];
-        
-        platforms.forEach(platform => {
-            html += `
-                <div class="video-card" onclick="window.open('${platform.url}', '_blank')">
-                    <div class="video-thumbnail">
-                        <div style="width:100%; height:100%; background: linear-gradient(135deg, #168cff, #0b2c55); display:flex; align-items:center; justify-content:center;">
-                            <span style="font-size: 48px; color: white;">${platform.icon}</span>
-                        </div>
-                        <div class="play-icon">${platform.icon}</div>
-                    </div>
-                    <div class="video-info">
-                        <h3>Search ${platform.name}</h3>
-                        <div class="video-channel">Click to search: "${escapeHtml(query)}"</div>
-                    </div>
-                </div>
-            `;
-        });
-        
-        document.getElementById("videosContent").innerHTML = html;
-        updateAllContent();
-        
-    } catch (error) {
-        document.getElementById("videosContent").innerHTML = `
-            <div class="no-results">Click the video cards above to search YouTube, Vimeo, and TikTok</div>
-        `;
-        updateAllContent();
-    }
-}
-
-// Update "All" tab with combined results
-function updateAllContent() {
-    let allHtml = '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 10px;">📄 Web Results</h3>';
-    allHtml += document.getElementById("webContent").innerHTML;
-    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🎬 Videos</h3>';
-    allHtml += document.getElementById("videosContent").innerHTML;
-    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🖼️ Images</h3>';
-    allHtml += '<div class="image-gallery">' + document.getElementById("imagesContent").innerHTML + '</div>';
+// Search on different platforms
+function searchOn(platform) {
+    const query = searchBox.value.trim();
     
-    document.getElementById("allContent").innerHTML = allHtml;
+    if (!query) {
+        alert('Please enter a search term first');
+        return;
+    }
+    
+    const platforms = {
+        google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+        images: `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`,
+        youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
+        wikipedia: `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json`,
+        reddit: `https://www.reddit.com/search/?q=${encodeURIComponent(query)}`,
+        twitter: `https://twitter.com/search?q=${encodeURIComponent(query)}`
+    };
+    
+    if (platforms[platform]) {
+        window.open(platforms[platform], '_blank');
+    }
 }
 
 function searchAgain() {
