@@ -67,6 +67,37 @@ header {
     cursor: pointer;
 }
 
+/* Tabs */
+.tabs {
+    max-width: 850px;
+    margin: 20px auto;
+    display: flex;
+    gap: 15px;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: #9db1ca;
+    cursor: pointer;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: #168cff;
+    border-bottom-color: #168cff;
+}
+
+.tab-button:hover {
+    color: #168cff;
+}
+
 .results {
     max-width: 850px;
     margin: 20px auto;
@@ -77,12 +108,27 @@ header {
     margin-bottom: 25px;
 }
 
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Generic Result Card */
 .result {
     background: rgba(10,35,70,0.75);
     border: 1px solid #31547e;
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.result:hover {
+    border-color: #168cff;
+    background: rgba(10,35,70,0.95);
 }
 
 .result h3 {
@@ -93,12 +139,19 @@ header {
 .result p {
     color: #c9d8eb;
     line-height: 1.6;
+    margin-bottom: 10px;
 }
 
 .result a {
     display: inline-block;
     margin-top: 15px;
     color: #168cff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.result a:hover {
+    text-decoration: underline;
 }
 
 .loading {
@@ -107,12 +160,7 @@ header {
 
 /* Image Gallery */
 .images-section {
-    margin-top: 40px;
-}
-
-.images-section h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
+    margin-top: 0;
 }
 
 .image-gallery {
@@ -157,10 +205,126 @@ header {
     -webkit-box-orient: vertical;
 }
 
-.no-images {
+/* News Card */
+.news-card {
+    background: rgba(10,35,70,0.75);
+    border: 1px solid #31547e;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    display: flex;
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    border-color: #168cff;
+    background: rgba(10,35,70,0.95);
+}
+
+.news-image {
+    width: 200px;
+    min-width: 200px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.news-content {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-content h3 {
+    color: #168cff;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.news-content p {
     color: #c9d8eb;
-    text-align: center;
-    padding: 20px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    flex-grow: 1;
+}
+
+.news-source {
+    color: #9db1ca;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.news-content a {
+    color: #168cff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Video Card */
+.video-card {
+    background: rgba(10,35,70,0.75);
+    border: 1px solid #31547e;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover {
+    border-color: #168cff;
+    background: rgba(10,35,70,0.95);
+    transform: translateY(-3px);
+}
+
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(22, 140, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .play-icon {
+    background: #168cff;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-info {
+    padding: 15px;
+}
+
+.video-info h3 {
+    color: #168cff;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.video-channel {
+    color: #9db1ca;
+    font-size: 13px;
 }
 
 footer {
@@ -172,13 +336,33 @@ footer {
     font-size: 14px;
 }
 
+.no-results {
+    color: #c9d8eb;
+    text-align: center;
+    padding: 40px 20px;
+}
+
 @media (max-width: 600px) {
     .search-area {
         margin: 25px 15px;
     }
 
-    .search-area button {
-        padding: 0 17px;
+    .tabs {
+        padding: 0 15px;
+        gap: 10px;
+    }
+
+    .tab-button {
+        font-size: 13px;
+    }
+
+    .news-card {
+        flex-direction: column;
+    }
+
+    .news-image {
+        width: 100%;
+        height: 180px;
     }
 
     .image-gallery {
@@ -202,32 +386,63 @@ footer {
 </header>
 
 <div class="search-area">
-
     <input
         id="searchBox"
         type="text"
         placeholder="Search the web..."
         onkeydown="if(event.key === 'Enter') searchAgain()"
     >
-
     <button onclick="searchAgain()">Search</button>
+</div>
 
+<!-- Tabs -->
+<div class="tabs">
+    <button class="tab-button active" onclick="switchTab('all')">All</button>
+    <button class="tab-button" onclick="switchTab('web')">Web</button>
+    <button class="tab-button" onclick="switchTab('images')">Images</button>
+    <button class="tab-button" onclick="switchTab('news')">News</button>
+    <button class="tab-button" onclick="switchTab('videos')">Videos</button>
 </div>
 
 <div class="results">
-
     <h2 id="searchTitle">Search Results</h2>
 
-    <div id="resultContent" class="result">
-        <p class="loading">Loading results...</p>
+    <!-- All Results Tab -->
+    <div id="all" class="tab-content active">
+        <div id="allContent"></div>
     </div>
 
-    <!-- Images Section -->
-    <div class="images-section" id="imagesSection" style="display: none;">
-        <h2>Images</h2>
-        <div id="imageGallery" class="image-gallery"></div>
+    <!-- Web Results Tab -->
+    <div id="web" class="tab-content">
+        <div id="webContent">
+            <div class="result">
+                <p class="loading">Loading web results...</p>
+            </div>
+        </div>
     </div>
 
+    <!-- Images Tab -->
+    <div id="images" class="tab-content">
+        <div id="imagesContent" class="image-gallery"></div>
+    </div>
+
+    <!-- News Tab -->
+    <div id="news" class="tab-content">
+        <div id="newsContent">
+            <div class="result">
+                <p class="loading">Loading news results...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Videos Tab -->
+    <div id="videos" class="tab-content">
+        <div id="videosContent">
+            <div class="result">
+                <p class="loading">Loading video results...</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
@@ -241,137 +456,254 @@ const query = params.get("q");
 
 const searchBox = document.getElementById("searchBox");
 const searchTitle = document.getElementById("searchTitle");
-const resultContent = document.getElementById("resultContent");
-const imagesSection = document.getElementById("imagesSection");
-const imageGallery = document.getElementById("imageGallery");
 
 if (query) {
     searchBox.value = query;
     searchTitle.textContent = "Results for: " + query;
-    getResult(query);
+    
+    // Load all results
+    getWebResult(query);
     getImages(query);
+    getNews(query);
+    getVideos(query);
 } else {
-    resultContent.innerHTML =
-        "<p>Type something in the search box to begin.</p>";
+    document.getElementById("allContent").innerHTML = 
+        "<p class='no-results'>Type something in the search box to begin.</p>";
 }
 
-async function getResult(query) {
+function switchTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+}
 
-    const url =
-        "https://en.wikipedia.org/api/rest_v1/page/summary/" +
-        encodeURIComponent(query);
-
+// Web Results - Wikipedia
+async function getWebResult(query) {
+    const url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(query);
+    
     try {
-
         const response = await fetch(url);
-
+        
         if (!response.ok) {
             throw new Error("No result");
         }
-
+        
         const data = await response.json();
-
-        resultContent.innerHTML = `
-            <h3>${escapeHtml(data.title || query)}</h3>
-
-            <p>
-                ${escapeHtml(
-                    data.extract || "No description was found."
-                )}
-            </p>
-
-            ${
-                data.content_urls?.desktop?.page
-                ? `<a href="${data.content_urls.desktop.page}"
-                     target="_blank"
-                     rel="noopener">
-                     Read more on Wikipedia →
-                   </a>`
-                : ""
-            }
+        
+        const html = `
+            <div class="result">
+                <h3>${escapeHtml(data.title || query)}</h3>
+                <p>
+                    ${escapeHtml(data.extract || "No description was found.")}
+                </p>
+                ${
+                    data.content_urls?.desktop?.page
+                    ? `<a href="${data.content_urls.desktop.page}" target="_blank" rel="noopener">
+                        Read more on Wikipedia →
+                       </a>`
+                    : ""
+                }
+            </div>
         `;
-
+        
+        document.getElementById("webContent").innerHTML = html;
+        updateAllContent();
+        
     } catch (error) {
-
-        resultContent.innerHTML = `
-            <h3>No result found</h3>
-
-            <p>
-                ByteSearch couldn't find information about
-                "${escapeHtml(query)}".
-            </p>
+        document.getElementById("webContent").innerHTML = `
+            <div class="result">
+                <h3>No result found</h3>
+                <p>ByteSearch couldn't find information about "${escapeHtml(query)}".</p>
+            </div>
         `;
+        updateAllContent();
     }
 }
 
+// News Results
+async function getNews(query) {
+    try {
+        // Using NewsAPI via RapidAPI (free tier available)
+        const url = "https://news-api14.p.rapidapi.com/search?query=" + encodeURIComponent(query) + "&limit=5";
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': 'demo',
+                'x-rapidapi-host': 'news-api14.p.rapidapi.com'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error("Failed to fetch news");
+        }
+        
+        const data = await response.json();
+        
+        if (data.news && data.news.length > 0) {
+            let html = '';
+            data.news.slice(0, 5).forEach(article => {
+                html += `
+                    <div class="news-card">
+                        <img src="${escapeHtml(article.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23666%22%3ENo image%3C/text%3E%3C/svg%3E')}" class="news-image" alt="${escapeHtml(article.title)}">
+                        <div class="news-content">
+                            <h3>${escapeHtml(article.title)}</h3>
+                            <p>${escapeHtml(article.description || '')}</p>
+                            <div class="news-source">${escapeHtml(article.source || 'News')}</div>
+                            <a href="${article.link}" target="_blank" rel="noopener">Read full article →</a>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById("newsContent").innerHTML = html;
+        } else {
+            throw new Error("No news found");
+        }
+        
+        updateAllContent();
+        
+    } catch (error) {
+        document.getElementById("newsContent").innerHTML = `
+            <div class="no-results">No news articles found for "${escapeHtml(query)}".</div>
+        `;
+        updateAllContent();
+    }
+}
+
+// Video Results - YouTube
+async function getVideos(query) {
+    try {
+        // Using YouTube API via RapidAPI
+        const url = "https://youtube-search-and-download.p.rapidapi.com/search?query=" + encodeURIComponent(query);
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': 'demo',
+                'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error("Failed to fetch videos");
+        }
+        
+        const data = await response.json();
+        
+        if (data.contents && data.contents.length > 0) {
+            let html = '';
+            const videos = data.contents.filter(item => item.type === 'video').slice(0, 5);
+            
+            if (videos.length > 0) {
+                videos.forEach(video => {
+                    html += `
+                        <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=${escapeHtml(video.id)}', '_blank')">
+                            <div class="video-thumbnail">
+                                <img src="${escapeHtml(video.thumbnail[0].url)}" alt="${escapeHtml(video.title)}">
+                                <div class="play-icon">▶</div>
+                            </div>
+                            <div class="video-info">
+                                <h3>${escapeHtml(video.title)}</h3>
+                                <div class="video-channel">${escapeHtml(video.channelName || 'YouTube')}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById("videosContent").innerHTML = html;
+            } else {
+                throw new Error("No videos found");
+            }
+        } else {
+            throw new Error("No videos found");
+        }
+        
+        updateAllContent();
+        
+    } catch (error) {
+        document.getElementById("videosContent").innerHTML = `
+            <div class="no-results">No videos found for "${escapeHtml(query)}".</div>
+        `;
+        updateAllContent();
+    }
+}
+
+// Image Results
 async function getImages(query) {
     try {
-        // Using Bing Image Search API via RapidAPI
         const url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + encodeURIComponent(query);
         
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'x-rapidapi-key': 'demo', // Replace with actual API key
+                'x-rapidapi-key': 'demo',
                 'x-rapidapi-host': 'bing-image-search1.p.rapidapi.com'
             }
         });
-
+        
         if (!response.ok) {
             throw new Error("Failed to fetch images");
         }
-
+        
         const data = await response.json();
         
         if (data.value && data.value.length > 0) {
-            imagesSection.style.display = "block";
-            imageGallery.innerHTML = "";
-            
-            // Display first 12 images
+            let html = '';
             data.value.slice(0, 12).forEach(image => {
-                const imageCard = document.createElement("div");
-                imageCard.className = "image-card";
-                imageCard.innerHTML = `
-                    <img src="${escapeHtml(image.thumbnail.contentUrl)}" 
-                         alt="${escapeHtml(image.name)}"
-                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23666%22%3EImage not available%3C/text%3E%3C/svg%3E'">
-                    <div class="image-title">${escapeHtml(image.name)}</div>
+                html += `
+                    <div class="image-card" onclick="window.open('${escapeHtml(image.contentUrl)}', '_blank')">
+                        <img src="${escapeHtml(image.thumbnail.contentUrl)}" alt="${escapeHtml(image.name)}">
+                        <div class="image-title">${escapeHtml(image.name)}</div>
+                    </div>
                 `;
-                
-                imageCard.addEventListener("click", () => {
-                    window.open(image.contentUrl, "_blank");
-                });
-                
-                imageGallery.appendChild(imageCard);
             });
+            document.getElementById("imagesContent").innerHTML = html;
+        } else {
+            throw new Error("No images found");
         }
-
+        
+        updateAllContent();
+        
     } catch (error) {
-        console.error("Error fetching images:", error);
-        // Silently fail - don't disrupt the text results
+        document.getElementById("imagesContent").innerHTML = `
+            <div class="no-results">No images found for "${escapeHtml(query)}".</div>
+        `;
+        updateAllContent();
     }
 }
 
+// Update "All" tab with combined results
+function updateAllContent() {
+    let allHtml = '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 10px;">📄 Web Results</h3>';
+    allHtml += document.getElementById("webContent").innerHTML;
+    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">📰 News</h3>';
+    allHtml += document.getElementById("newsContent").innerHTML;
+    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🎬 Videos</h3>';
+    allHtml += document.getElementById("videosContent").innerHTML;
+    allHtml += '<h3 style="color: #168cff; margin-bottom: 20px; margin-top: 30px;">🖼️ Images</h3>';
+    allHtml += '<div class="image-gallery">' + document.getElementById("imagesContent").innerHTML + '</div>';
+    
+    document.getElementById("allContent").innerHTML = allHtml;
+}
+
 function searchAgain() {
-
-    const newQuery =
-        searchBox.value.trim();
-
+    const newQuery = searchBox.value.trim();
+    
     if (newQuery !== "") {
-
-        window.location.href =
-            "results.html?q=" +
-            encodeURIComponent(newQuery);
+        window.location.href = "results.html?q=" + encodeURIComponent(newQuery);
     }
 }
 
 function escapeHtml(text) {
-
-    const div =
-        document.createElement("div");
-
+    const div = document.createElement("div");
     div.textContent = text;
-
     return div.innerHTML;
 }
 
