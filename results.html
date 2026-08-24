@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="HENRY SOLOMON">
 
 <title>ByteSearch Results</title>
 
@@ -162,6 +163,15 @@ header {
     padding: 20px;
 }
 
+footer {
+    margin-top: 40px;
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    color: #9db1ca;
+    font-size: 14px;
+}
+
 @media (max-width: 600px) {
     .search-area {
         margin: 25px 15px;
@@ -219,6 +229,10 @@ header {
     </div>
 
 </div>
+
+<footer>
+    © 2026 ByteSearch • Produced by HENRY SOLOMON • Search Smarter. See More.
+</footer>
 
 <script>
 
@@ -320,7 +334,7 @@ async function getImages(query) {
                 imageCard.innerHTML = `
                     <img src="${escapeHtml(image.thumbnail.contentUrl)}" 
                          alt="${escapeHtml(image.name)}"
-                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3C/svg%3E'">
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23333%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23666%22%3EImage not available%3C/text%3E%3C/svg%3E'">
                     <div class="image-title">${escapeHtml(image.name)}</div>
                 `;
                 
