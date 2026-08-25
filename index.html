@@ -177,14 +177,58 @@ h1 span {
     background: #0b2c55;
 }
 
+/* Contact & Privacy */
+.info-section {
+    max-width: 1000px;
+    margin: 80px auto 0;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.info-card {
+    background: rgba(8, 20, 38, 0.75);
+    border: 1px solid rgba(80, 150, 220, 0.25);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+.info-card h2 {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    color: #c7d6e8;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.info-card a {
+    color: #168cff;
+    text-decoration: none;
+}
+
+.info-card a:hover {
+    text-decoration: underline;
+}
+
 /* Footer */
 footer {
-    margin-top: 80px;
+    margin-top: 50px;
     padding: 25px;
     text-align: center;
     border-top: 1px solid rgba(255,255,255,0.12);
     color: #9db1ca;
     font-size: 14px;
+}
+
+.footer-credit {
+    margin-top: 10px;
+    color: #7188a3;
 }
 
 /* Phone */
@@ -234,6 +278,16 @@ footer {
     .search-area button {
         padding: 0 18px;
         font-size: 15px;
+    }
+
+    .info-section {
+        grid-template-columns: 1fr;
+        margin-top: 60px;
+        padding: 0 15px;
+    }
+
+    .info-card {
+        padding: 22px;
     }
 }
 </style>
@@ -290,8 +344,42 @@ footer {
 
 </main>
 
+<!-- Contact & Privacy -->
+<section class="info-section">
+
+    <div class="info-card">
+        <h2>Contact</h2>
+
+        <p>
+            Have a question? Get in touch with us.
+        </p>
+
+        <p>
+            Email:
+            <a href="mailto:Hs9026442@gmail.com">
+                Hs9026442@gmail.com
+            </a>
+        </p>
+    </div>
+
+    <div class="info-card">
+        <h2>Privacy Policy</h2>
+
+        <p>
+            Your privacy is important to us.
+            We do not collect or share your personal
+            information without your permission.
+        </p>
+    </div>
+
+</section>
+
 <footer>
     © 2026 ByteSearch • Produced by HENRY SOLOMON • Search Smarter. See More.
+
+    <div class="footer-credit">
+        Built with purpose by ByteSearch
+    </div>
 </footer>
 
 <script>
@@ -305,17 +393,14 @@ function search() {
 
     window.location.href =
         "results.html?q=" + encodeURIComponent(query);
-    }
+}
 
 function quickSearch(site) {
     document.getElementById("searchBox").value = site;
     search();
 }
 
-
-
-
 </script>
 
 </body>
-    </html>
+</html>
