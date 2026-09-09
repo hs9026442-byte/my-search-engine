@@ -1,406 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="HENRY SOLOMON">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ByteSearch - Search the web smarter and faster. A modern, accessible search engine portal.">
+    <meta name="keywords" content="search, search engine, web search, ByteSearch">
+    <meta name="author" content="HENRY SOLOMON">
+    <meta name="theme-color" content="#168cff">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="ByteSearch - Search Smarter. See More.">
+    <meta property="og:description" content="A modern, accessible search engine portal designed for speed and simplicity.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hs9026442-byte.github.io/my-search-engine/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23168cff' width='100' height='100' rx='20'/><text x='50' y='70' font-size='70' font-weight='bold' fill='%23ffffff' text-anchor='middle'>B</text></svg>">
+    
+    <title>ByteSearch - Search Smarter. See More.</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<title>ByteSearch</title>
+        :root {
+            --primary-blue: #168cff;
+            --dark-bg: #020817;
+            --text-primary: #ffffff;
+            --text-secondary: #dceaff;
+            --text-tertiary: #c7d6e8;
+            --focus-outline: 3px solid #168cff;
+            --focus-offset: 2px;
+        }
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    color: white;
-    background:
-        radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
-        radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
-        linear-gradient(135deg, #020817, #001b3d, #020817);
-    overflow-x: hidden;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            color: var(--text-primary);
+            background:
+                radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
+                radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
+                linear-gradient(135deg, #020817, #001b3d, #020817);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* Navigation */
-nav {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 6%;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-}
+        /* Skip to main content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-blue);
+            color: var(--text-primary);
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+            border-radius: 0 0 4px 0;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 25px;
-    font-weight: bold;
-}
+        .skip-link:focus {
+            top: 0;
+        }
 
-.logo-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ffffff, #168cff);
-    color: #06152d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 27px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0,140,255,0.5);
-}
+        /* Navigation */
+        nav {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
 
-.byte {
-    color: white;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
 
-.search-word {
-    color: #168cff;
-}
+        .logo:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+            border-radius: 4px;
+        }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 25px;
-    font-size: 16px;
-}
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffffff, #168cff);
+            color: #06152d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+            aria-hidden: "true";
+        }
 
-/* Main */
-main {
-    text-align: center;
-    padding: 75px 20px 40px;
-}
+        .byte {
+            color: var(--text-primary);
+        }
 
-.big-logo {
-    width: 100px;
-    height: 100px;
-    margin: auto;
-    border-radius: 28px;
-    background: linear-gradient(135deg, #ffffff, #087cff);
-    color: #06152d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 70px;
-    font-weight: bold;
-    box-shadow: 0 0 45px rgba(0,140,255,0.55);
-}
+        .search-word {
+            color: var(--primary-blue);
+        }
 
-h1 {
-    font-size: clamp(50px, 13vw, 100px);
-    margin-top: 20px;
-    letter-spacing: -4px;
-}
+        .nav-links {
+            display: flex;
+            gap: 0;
+        }
 
-h1 span {
-    color: #168cff;
-}
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
 
-.tagline {
-    font-size: 18px;
-    letter-spacing: 4px;
-    margin: 10px 0 35px;
-    color: #dceaff;
-}
+        nav a:hover {
+            background-color: rgba(22, 140, 255, 0.1);
+        }
 
-/* Search */
-.search-area {
-    max-width: 850px;
-    margin: auto;
-    display: flex;
-    background: white;
-    border: 3px solid #168cff;
-    border-radius: 50px;
-    padding: 6px;
-    box-shadow: 0 0 30px rgba(0,140,255,0.35);
-}
+        nav a:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
 
-.search-area input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 15px 20px;
-    font-size: 17px;
-    border-radius: 40px;
-    min-width: 0;
-}
+        /* Main */
+        main {
+            text-align: center;
+            padding: 75px 20px 40px;
+        }
 
-.search-area button {
-    border: none;
-    background: #168cff;
-    color: white;
-    padding: 0 28px;
-    border-radius: 40px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .big-logo {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #ffffff, #087cff);
+            color: #06152d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            font-weight: bold;
+            box-shadow: 0 0 45px rgba(0, 140, 255, 0.55);
+            aria-hidden: "true";
+        }
 
-.search-area button:active {
-    transform: scale(0.97);
-}
+        h1 {
+            font-size: clamp(50px, 13vw, 100px);
+            margin-top: 20px;
+            letter-spacing: -4px;
+            line-height: 1.2;
+        }
 
-/* Quick Search */
-.quick-title {
-    margin: 35px 0 18px;
-    font-size: 22px;
-}
+        h1 span {
+            color: var(--primary-blue);
+        }
 
-.quick {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    max-width: 900px;
-    margin: auto;
-}
+        .tagline {
+            font-size: 18px;
+            letter-spacing: 4px;
+            margin: 10px 0 35px;
+            color: var(--text-secondary);
+        }
 
-.quick button {
-    background: rgba(20,40,75,0.8);
-    color: white;
-    border: 1px solid #31547e;
-    padding: 13px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 15px;
-}
+        /* Search */
+        .search-container {
+            max-width: 850px;
+            margin: auto;
+        }
 
-.quick button:hover {
-    border-color: #168cff;
-    background: #0b2c55;
-}
+        .search-label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
 
-/* Contact & Privacy */
-.info-section {
-    max-width: 1000px;
-    margin: 80px auto 0;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-}
+        .search-area {
+            display: flex;
+            background: var(--text-primary);
+            border: 3px solid var(--primary-blue);
+            border-radius: 50px;
+            padding: 6px;
+            box-shadow: 0 0 30px rgba(0, 140, 255, 0.35);
+            gap: 6px;
+        }
 
-.info-card {
-    background: rgba(8, 20, 38, 0.75);
-    border: 1px solid rgba(80, 150, 220, 0.25);
-    border-radius: 18px;
-    padding: 28px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-}
+        .search-area:focus-within {
+            box-shadow: 0 0 30px rgba(0, 140, 255, 0.55);
+        }
 
-.info-card h2 {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 12px;
-}
+        .search-area input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 15px 20px;
+            font-size: 17px;
+            border-radius: 40px;
+            min-width: 0;
+            color: #333;
+        }
 
-.info-card p {
-    color: #c7d6e8;
-    line-height: 1.7;
-    font-size: 16px;
-}
+        .search-area input::placeholder {
+            color: #999;
+        }
 
-.info-card a {
-    color: #168cff;
-    text-decoration: none;
-}
+        .search-area button {
+            border: none;
+            background: var(--primary-blue);
+            color: var(--text-primary);
+            padding: 0 28px;
+            border-radius: 40px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-.info-card a:hover {
-    text-decoration: underline;
-}
+        .search-area button:hover {
+            background-color: #0d75e6;
+        }
 
-/* Footer */
-footer {
-    margin-top: 50px;
-    padding: 25px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    color: #9db1ca;
-    font-size: 14px;
-}
+        .search-area button:active {
+            transform: scale(0.97);
+        }
 
-.footer-credit {
-    margin-top: 10px;
-    color: #7188a3;
-}
+        .search-area button:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
 
-/* Phone */
-@media (max-width: 600px) {
+        .search-icon {
+            font-size: 20px;
+        }
 
-    nav {
-        padding: 0 18px;
-    }
+        /* Quick Search */
+        .quick-title {
+            margin: 35px 0 18px;
+            font-size: 22px;
+            font-weight: 600;
+        }
 
-    nav a {
-        display: none;
-    }
+        .quick {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: auto;
+        }
 
-    .logo {
-        font-size: 21px;
-    }
+        .quick button {
+            background: rgba(20, 40, 75, 0.8);
+            color: var(--text-primary);
+            border: 1px solid #31547e;
+            padding: 13px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
 
-    main {
-        padding-top: 55px;
-    }
+        .quick button:hover {
+            border-color: var(--primary-blue);
+            background: #0b2c55;
+        }
 
-    .big-logo {
-        width: 80px;
-        height: 80px;
-        font-size: 55px;
-    }
+        .quick button:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
 
-    h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
-    }
+        .quick button:active {
+            transform: scale(0.95);
+        }
 
-    .tagline {
-        font-size: 13px;
-        letter-spacing: 2px;
-    }
+        /* Contact & Privacy */
+        .info-section {
+            max-width: 1000px;
+            margin: 80px auto 0;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
 
-    .search-area {
-        width: 100%;
-    }
+        .info-card {
+            background: rgba(8, 20, 38, 0.75);
+            border: 1px solid rgba(80, 150, 220, 0.25);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            transition: border-color 0.2s ease;
+        }
 
-    .search-area input {
-        padding: 13px 12px;
-        font-size: 15px;
-    }
+        .info-card:focus-within {
+            border-color: rgba(22, 140, 255, 0.5);
+        }
 
-    .search-area button {
-        padding: 0 18px;
-        font-size: 15px;
-    }
+        .info-card h2 {
+            color: var(--text-primary);
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
 
-    .info-section {
-        grid-template-columns: 1fr;
-        margin-top: 60px;
-        padding: 0 15px;
-    }
+        .info-card p {
+            color: var(--text-tertiary);
+            line-height: 1.7;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
 
-    .info-card {
-        padding: 22px;
-    }
-}
-</style>
+        .info-card a {
+            color: var(--primary-blue);
+            text-decoration: underline;
+            transition: opacity 0.2s ease;
+        }
+
+        .info-card a:hover {
+            opacity: 0.8;
+        }
+
+        .info-card a:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+            border-radius: 2px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            color: #9db1ca;
+            font-size: 14px;
+        }
+
+        .footer-credit {
+            margin-top: 10px;
+            color: #7188a3;
+        }
+
+        footer a {
+            color: var(--primary-blue);
+            text-decoration: underline;
+        }
+
+        footer a:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+            border-radius: 2px;
+        }
+
+        /* Phone */
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 0 18px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            main {
+                padding-top: 55px;
+            }
+
+            .big-logo {
+                width: 80px;
+                height: 80px;
+                font-size: 55px;
+            }
+
+            h1 {
+                font-size: 55px;
+                letter-spacing: -3px;
+            }
+
+            .tagline {
+                font-size: 13px;
+                letter-spacing: 2px;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .search-area {
+                width: 100%;
+            }
+
+            .search-area input {
+                padding: 13px 12px;
+                font-size: 15px;
+            }
+
+            .search-area button {
+                padding: 0 18px;
+                font-size: 15px;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+                margin-top: 60px;
+                padding: 0 15px;
+            }
+
+            .info-card {
+                padding: 22px;
+            }
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: more) {
+            body {
+                background: #000000;
+            }
+
+            nav {
+                border-bottom: 2px solid #ffffff;
+            }
+
+            .search-area {
+                border: 4px solid var(--primary-blue);
+            }
+
+            nav a {
+                text-decoration: underline;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<nav>
-    <div class="logo">
-        <div class="logo-icon">B</div>
-        <div>
-            <span class="byte">Byte</span><span class="search-word">Search</span>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav role="navigation" aria-label="Main navigation">
+        <a href="./" class="logo" aria-label="ByteSearch Home">
+            <div class="logo-icon" aria-hidden="true">B</div>
+            <div>
+                <span class="byte">Byte</span><span class="search-word">Search</span>
+            </div>
+        </a>
+
+        <div class="nav-links">
+            <a href="#" aria-label="Home">Home</a>
+            <a href="#search-area" aria-label="Search">Search</a>
+            <a href="#contact" aria-label="About">About</a>
         </div>
-    </div>
+    </nav>
 
-    <div>
-        <a href="#">Home</a>
-        <a href="#">Search</a>
-        <a href="#">About</a>
-    </div>
-</nav>
+    <main id="main-content">
 
-<main>
+        <div class="big-logo" aria-hidden="true">B</div>
 
-    <div class="big-logo">B</div>
+        <h1>Byte<span>Search</span></h1>
 
-    <h1>Byte<span>Search</span></h1>
-
-    <p class="tagline">
-        SEARCH SMARTER. SEE MORE.
-    </p>
-
-    <div class="search-area">
-        <input
-            id="searchBox"
-            type="text"
-            placeholder="Search the web..."
-            onkeydown="if(event.key === 'Enter') search()"
-        >
-
-        <button onclick="search()">
-            🔍 Search
-        </button>
-    </div>
-
-    <h2 class="quick-title">Quick Search</h2>
-
-    <div class="quick">
-        <button onclick="quickSearch('Google')">Google</button>
-        <button onclick="quickSearch('YouTube')">YouTube</button>
-        <button onclick="quickSearch('Facebook')">Facebook</button>
-        <button onclick="quickSearch('Wikipedia')">Wikipedia</button>
-    </div>
-
-</main>
-
-<!-- Contact & Privacy -->
-<section class="info-section">
-
-    <div class="info-card">
-        <h2>Contact</h2>
-
-        <p>
-            Have a question? Get in touch with us.
+        <p class="tagline">
+            SEARCH SMARTER. SEE MORE.
         </p>
 
-        <p>
-            Email:
-            <a href="mailto:Hs9026442@gmail.com">
-                Hs9026442@gmail.com
-            </a>
-        </p>
-    </div>
+        <div class="search-container">
+            <label for="searchBox" class="search-label">Enter your search query</label>
+            <div class="search-area" id="search-area">
+                <input
+                    id="searchBox"
+                    type="search"
+                    placeholder="Search the web..."
+                    aria-label="Search query input"
+                    aria-describedby="search-instructions"
+                >
+                <button id="searchBtn" aria-label="Search button">
+                    <span class="search-icon">🔍</span>
+                    <span>Search</span>
+                </button>
+            </div>
+            <p id="search-instructions" style="display: none;">Press Enter or click the Search button to search</p>
+        </div>
 
-    <div class="info-card">
-        <h2>Privacy Policy</h2>
+        <h2 class="quick-title">Quick Search</h2>
 
-        <p>
-            Your privacy is important to us.
-            We do not collect or share your personal
-            information without your permission.
-        </p>
-    </div>
+        <div class="quick" role="group" aria-label="Quick search options">
+            <button class="quick-btn" data-site="Google" aria-label="Quick search: Google">Google</button>
+            <button class="quick-btn" data-site="YouTube" aria-label="Quick search: YouTube">YouTube</button>
+            <button class="quick-btn" data-site="Facebook" aria-label="Quick search: Facebook">Facebook</button>
+            <button class="quick-btn" data-site="Wikipedia" aria-label="Quick search: Wikipedia">Wikipedia</button>
+        </div>
 
-</section>
+    </main>
 
-<footer>
-    © 2026 ByteSearch • Produced by HENRY SOLOMON • Search Smarter. See More.
+    <!-- Contact & Privacy -->
+    <section class="info-section" id="contact" aria-label="Information section">
 
-    <div class="footer-credit">
-        Built with purpose by ByteSearch
-    </div>
-</footer>
+        <div class="info-card">
+            <h2>Contact</h2>
 
-<script>
+            <p>
+                Have a question? Get in touch with us.
+            </p>
 
-function search() {
-    const query = document.getElementById("searchBox").value.trim();
+            <p>
+                Email:
+                <a href="mailto:Hs9026442@gmail.com">
+                    Hs9026442@gmail.com
+                </a>
+            </p>
+        </div>
 
-    if (!query) {
-        return;
-    }
+        <div class="info-card">
+            <h2>Privacy Policy</h2>
 
-    window.location.href =
-        "results.html?q=" + encodeURIComponent(query);
-}
+            <p>
+                Your privacy is important to us.
+                We do not collect or share your personal
+                information without your permission.
+            </p>
+        </div>
 
-function quickSearch(site) {
-    document.getElementById("searchBox").value = site;
-    search();
-}
+    </section>
 
-</script>
+    <footer role="contentinfo">
+        © 2026 ByteSearch • Produced by HENRY SOLOMON • Search Smarter. See More.
+
+        <div class="footer-credit">
+            Built with purpose by ByteSearch
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const searchBtn = document.getElementById('searchBtn');
+        const quickButtons = document.querySelectorAll('.quick-btn');
+
+        function performSearch() {
+            const query = searchBox.value.trim();
+
+            if (!query) {
+                // Show a message to screen readers
+                const ariaLive = document.createElement('div');
+                ariaLive.setAttribute('role', 'alert');
+                ariaLive.setAttribute('aria-live', 'polite');
+                ariaLive.textContent = 'Please enter a search query';
+                ariaLive.style.position = 'absolute';
+                ariaLive.style.left = '-9999px';
+                document.body.appendChild(ariaLive);
+                setTimeout(() => ariaLive.remove(), 3000);
+                return;
+            }
+
+            window.location.href = 'results.html?q=' + encodeURIComponent(query);
+        }
+
+        function quickSearch(site) {
+            searchBox.value = site;
+            performSearch();
+        }
+
+        // Event listeners with proper keyboard support
+        searchBtn.addEventListener('click', performSearch);
+        searchBox.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                performSearch();
+            }
+        });
+
+        // Quick search buttons
+        quickButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const site = button.getAttribute('data-site');
+                quickSearch(site);
+            });
+        });
+
+        // Set focus on search input when page loads
+        window.addEventListener('load', () => {
+            searchBox.focus();
+        });
+    </script>
 
 </body>
 </html>
