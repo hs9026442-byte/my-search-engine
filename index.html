@@ -39,6 +39,21 @@
             --text-tertiary: #b8e6ff;
             --focus-outline: 3px solid #00d4ff;
             --focus-offset: 2px;
+            --input-bg: #ffffff;
+            --input-text: #000000;
+            --nav-bg: rgba(10, 14, 39, 0.8);
+        }
+
+        [data-theme="light"] {
+            --dark-bg-1: #ffffff;
+            --dark-bg-2: #f5f5f5;
+            --dark-bg-3: #efefef;
+            --text-primary: #000000;
+            --text-secondary: #1a2f5a;
+            --text-tertiary: #2d5a8a;
+            --input-bg: #ffffff;
+            --input-text: #000000;
+            --nav-bg: rgba(255, 255, 255, 0.95);
         }
 
         html {
@@ -53,9 +68,10 @@
                 radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 80% 70%, rgba(179, 0, 255, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 50% 100%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2d1b4e 100%);
+                linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 50%, var(--dark-bg-3) 100%);
             overflow-x: hidden;
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Skip to main content link */
@@ -84,8 +100,13 @@
             justify-content: space-between;
             padding: 0 6%;
             border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-            background: rgba(10, 14, 39, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
+            transition: background-color 0.3s ease;
+        }
+
+        [data-theme="light"] nav {
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
         }
 
         .logo {
@@ -133,6 +154,12 @@
             background-clip: text;
         }
 
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .nav-links {
             display: flex;
             gap: 0;
@@ -170,6 +197,62 @@
         nav a:focus {
             outline: var(--focus-outline);
             outline-offset: var(--focus-offset);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--text-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .theme-toggle:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sun-icon {
+            position: absolute;
+            opacity: 0;
+            transform: rotate(-180deg);
+            transition: all 0.3s ease;
+        }
+
+        .moon-icon {
+            position: absolute;
+            opacity: 1;
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        [data-theme="light"] .moon-icon {
+            opacity: 0;
+            transform: rotate(180deg);
         }
 
         /* Main */
@@ -245,7 +328,7 @@
 
         .search-area {
             display: flex;
-            background: rgba(26, 31, 58, 0.8);
+            background: var(--input-bg);
             border: 2px solid transparent;
             background-clip: padding-box;
             border-image: linear-gradient(135deg, var(--primary-cyan), var(--primary-lime)) 1;
@@ -254,20 +337,7 @@
             box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 40px rgba(0, 255, 136, 0.05);
             gap: 6px;
             position: relative;
-        }
-
-        .search-area::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-lime));
-            border-radius: 50px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: box-shadow 0.3s ease;
         }
 
         .search-area:focus-within {
@@ -282,8 +352,9 @@
             font-size: 17px;
             border-radius: 40px;
             min-width: 0;
-            color: #000;
-            background: #fff;
+            color: var(--input-text);
+            background: var(--input-bg);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .search-area input::placeholder {
@@ -358,6 +429,11 @@
             transition: all 0.3s ease;
         }
 
+        [data-theme="light"] .quick button {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
         .quick button:hover {
             border-color: var(--primary-cyan);
             background: rgba(0, 212, 255, 0.1);
@@ -392,6 +468,11 @@
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+        }
+
+        [data-theme="light"] .info-card {
+            background: rgba(239, 239, 239, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.15);
         }
 
         .info-card:hover {
@@ -464,6 +545,11 @@
             color: var(--text-tertiary);
             font-size: 14px;
             background: rgba(10, 14, 39, 0.5);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="light"] footer {
+            background: rgba(245, 245, 245, 0.8);
         }
 
         .footer-credit {
@@ -596,10 +682,17 @@
             </div>
         </a>
 
-        <div class="nav-links">
-            <a href="#" aria-label="Home">Home</a>
-            <a href="#search-area" aria-label="Search">Search</a>
-            <a href="#contact" aria-label="About">About</a>
+        <div class="nav-controls">
+            <div class="nav-links">
+                <a href="#" aria-label="Home">Home</a>
+                <a href="#search-area" aria-label="Search">Search</a>
+                <a href="#contact" aria-label="About">About</a>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode">
+                <span class="moon-icon">🌙</span>
+                <span class="sun-icon">☀️</span>
+            </button>
         </div>
     </nav>
 
@@ -681,6 +774,42 @@
     </footer>
 
     <script>
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to dark
+        const currentTheme = localStorage.getItem('theme') || 
+                           (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        
+        // Apply saved theme
+        html.setAttribute('data-theme', currentTheme);
+
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Announce theme change to screen readers
+            const ariaLive = document.createElement('div');
+            ariaLive.setAttribute('role', 'status');
+            ariaLive.setAttribute('aria-live', 'polite');
+            ariaLive.textContent = `Theme switched to ${newTheme} mode`;
+            ariaLive.style.position = 'absolute';
+            ariaLive.style.left = '-9999px';
+            document.body.appendChild(ariaLive);
+            setTimeout(() => ariaLive.remove(), 2000);
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                const newTheme = e.matches ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+            }
+        });
+
         // Search functionality
         const searchBox = document.getElementById('searchBox');
         const searchBtn = document.getElementById('searchBtn');
