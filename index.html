@@ -18,11 +18,23 @@ body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
     color: white;
-    background:
-        radial-gradient(circle at 15% 40%, #063d91 0%, transparent 30%),
-        radial-gradient(circle at 85% 70%, #003b80 0%, transparent 35%),
-        linear-gradient(135deg, #020817, #001b3d, #020817);
+    background: linear-gradient(180deg, #071426 0%, #04263b 50%, #01152a 100%);
+    background-attachment: fixed;
     overflow-x: hidden;
+    position: relative;
+}
+
+/* subtle overlay to add depth */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02) 0%, transparent 25%),
+      radial-gradient(circle at 90% 80%, rgba(255,255,255,0.02) 0%, transparent 30%),
+      linear-gradient(135deg, rgba(255,255,255,0.015), rgba(0,0,0,0));
+    mix-blend-mode: overlay;
 }
 
 /* Navigation */
@@ -32,7 +44,7 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 0 6%;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .logo {
@@ -54,7 +66,7 @@ nav {
     justify-content: center;
     font-size: 27px;
     font-weight: bold;
-    box-shadow: 0 0 20px rgba(0,140,255,0.5);
+    box-shadow: 0 4px 18px rgba(0,140,255,0.18);
 }
 
 .byte {
@@ -90,7 +102,7 @@ main {
     justify-content: center;
     font-size: 70px;
     font-weight: bold;
-    box-shadow: 0 0 45px rgba(0,140,255,0.55);
+    box-shadow: 0 8px 40px rgba(0,140,255,0.18);
 }
 
 h1 {
@@ -115,11 +127,11 @@ h1 span {
     max-width: 850px;
     margin: auto;
     display: flex;
-    background: white;
-    border: 3px solid #168cff;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 50px;
     padding: 6px;
-    box-shadow: 0 0 30px rgba(0,140,255,0.35);
+    box-shadow: 0 6px 30px rgba(0,0,0,0.35);
 }
 
 .search-area input {
@@ -130,6 +142,8 @@ h1 span {
     font-size: 17px;
     border-radius: 40px;
     min-width: 0;
+    background: transparent;
+    color: #e8f4ff;
 }
 
 .search-area button {
@@ -163,9 +177,9 @@ h1 span {
 }
 
 .quick button {
-    background: rgba(20,40,75,0.8);
+    background: rgba(255,255,255,0.04);
     color: white;
-    border: 1px solid #31547e;
+    border: 1px solid rgba(255,255,255,0.04);
     padding: 13px 20px;
     border-radius: 12px;
     cursor: pointer;
@@ -174,7 +188,7 @@ h1 span {
 
 .quick button:hover {
     border-color: #168cff;
-    background: #0b2c55;
+    background: rgba(20,40,75,0.6);
 }
 
 /* Contact & Privacy */
@@ -189,7 +203,7 @@ h1 span {
 
 .info-card {
     background: rgba(8, 20, 38, 0.75);
-    border: 1px solid rgba(80, 150, 220, 0.25);
+    border: 1px solid rgba(80, 150, 220, 0.12);
     border-radius: 18px;
     padding: 28px;
     box-shadow: 0 10px 35px rgba(0,0,0,0.25);
@@ -221,7 +235,7 @@ footer {
     margin-top: 50px;
     padding: 25px;
     text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    border-top: 1px solid rgba(255,255,255,0.06);
     color: #9db1ca;
     font-size: 14px;
 }
